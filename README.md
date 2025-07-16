@@ -5,12 +5,12 @@
 ## Скриншоты
 
 <div align="center">
-  <img src="screenshots/screen1.jiff" width="200" alt="Экран 1">
-  <img src="screenshots/screen2.jiff" width="200" alt="Экран 2">
-  <img src="screenshots/screen3.jiff" width="200" alt="Экран 3">
-  <img src="screenshots/screen4.jiff" width="200" alt="Экран 4">
-  <img src="screenshots/screen5.jiff" width="200" alt="Экран 5">
-  <img src="screenshots/screen6.jiff" width="200" alt="Экран 6">
+  <img src="screenshots/screen1.png" width="200" alt="Экран 1">
+  <img src="screenshots/screen2.png" width="200" alt="Экран 2">
+  <img src="screenshots/screen3.png" width="200" alt="Экран 3">
+  <img src="screenshots/screen4.png" width="200" alt="Экран 4">
+  <img src="screenshots/screen5.png" width="200" alt="Экран 5">
+  <img src="screenshots/screen6.png" width="200" alt="Экран 6">
 </div>
 
 ## Технологии
