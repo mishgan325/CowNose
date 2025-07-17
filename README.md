@@ -13,6 +13,10 @@
   <img src="screenshots/screen6.png" width="200" alt="Экран 6">
 </div>
 
+## Демонстрация
+
+https://youtube.com/shorts/q4XvADszt3Q?feature=share
+
 ## Технологии
 
 ### Мобильное приложение (Android)
