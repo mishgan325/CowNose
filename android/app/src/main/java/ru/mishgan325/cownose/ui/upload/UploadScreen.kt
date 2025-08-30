@@ -20,8 +20,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import ru.mishgan325.cownose.ui.common.AppHeader
 import org.koin.compose.viewmodel.koinViewModel
+import ru.mishgan325.cownose.ui.common.AppHeader
+import ru.mishgan325.cownose.ui.common.CapturePhotoButton
+import ru.mishgan325.cownose.ui.common.ImagePreview
+import ru.mishgan325.cownose.ui.common.ImagePreviewPlaceholder
+import ru.mishgan325.cownose.ui.common.LoadFromGalleryButton
 
 @Composable
 fun UploadScreen(

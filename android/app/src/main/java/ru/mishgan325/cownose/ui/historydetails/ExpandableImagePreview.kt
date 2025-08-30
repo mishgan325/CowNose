@@ -24,7 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import ru.mishgan325.cownose.ui.upload.ImagePreview
+import ru.mishgan325.cownose.ui.common.ImagePreview
 
 @Composable
 fun ExpandableImagePreview(

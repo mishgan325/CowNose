@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.ui.upload
+package ru.mishgan325.cownose.ui.common
 
 import android.net.Uri
 import android.os.Environment

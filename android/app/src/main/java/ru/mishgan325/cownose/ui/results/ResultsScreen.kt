@@ -42,7 +42,7 @@ import ru.mishgan325.cownose.domain.entities.NoseCoordinates
 import ru.mishgan325.cownose.domain.entities.NoseSearchResult
 import ru.mishgan325.cownose.ui.common.AppHeader
 import ru.mishgan325.cownose.ui.common.ResultsPanel
-import ru.mishgan325.cownose.ui.upload.ImagePreview
+import ru.mishgan325.cownose.ui.common.ImagePreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplicationPreview

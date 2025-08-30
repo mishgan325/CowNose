@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.ui.upload
+package ru.mishgan325.cownose.ui.common
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
