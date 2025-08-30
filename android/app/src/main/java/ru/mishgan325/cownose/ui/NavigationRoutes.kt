@@ -7,13 +7,21 @@ import kotlinx.serialization.Serializable
 data class TopLevelRoute<T : Any>(val name: String, val route: T, val icon: Int)
 
 val topLevelRoutes = listOf(
-    TopLevelRoute("Главная", UploadScreenRoute, R.drawable.home_24px),
-    TopLevelRoute("История", HistoryScreenRoute, R.drawable.history_24px)
+    TopLevelRoute("Поиск", UploadScreenRoute, R.drawable.search),
+    TopLevelRoute("NFC", NFCScreenRoute, R.drawable.rfid_line),
+    TopLevelRoute("Добавить нос", AddEmbeddingScreenRoute, R.drawable.add),
+    TopLevelRoute("История", HistoryScreenRoute, R.drawable.history)
 )
 
 
 @Serializable
 data object UploadScreenRoute
+
+@Serializable
+data object NFCScreenRoute
+
+@Serializable
+data object AddEmbeddingScreenRoute
 
 @Serializable
 data object ResultsScreenRoute

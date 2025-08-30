@@ -14,6 +14,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingViewModel
 
 val koinModule = module {
     singleOf(::WebClient)
@@ -23,6 +24,7 @@ val koinModule = module {
     viewModelOf(::UploadViewModel)
     viewModelOf(::ResultViewModel)
     viewModelOf(::HistoryViewModel)
+    viewModelOf(::AddEmbeddingViewModel)
 
     single { provideDatabase(androidContext()) }
     single { get<AppDatabase>().noseSearchResultDao() }

@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
@@ -22,8 +23,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingScreen
 import ru.mishgan325.cownose.ui.history.HistoryScreen
 import ru.mishgan325.cownose.ui.historydetails.HistoryDetailsScreen
+import ru.mishgan325.cownose.ui.nfc.NFCScreen
 import ru.mishgan325.cownose.ui.results.ResultsScreen
 import ru.mishgan325.cownose.ui.upload.UploadScreen
 
@@ -112,6 +115,18 @@ fun CowNoseApp(modifier: Modifier = Modifier) {
                     },
                     modifier = Modifier
                 )
+            }
+
+            composable<NFCScreenRoute> {
+                NFCScreen(
+                    modifier = Modifier
+                )
+            }
+
+            composable<AddEmbeddingScreenRoute> {
+                AddEmbeddingScreen(
+                   modifier = Modifier
+               )
             }
 
             composable<HistoryScreenRoute> {
