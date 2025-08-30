@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.mishgan325.cownose.data.network.RequestResult
-import ru.mishgan325.cownose.domain.entities.toDomain
+import ru.mishgan325.cownose.ui.utlis.ImageLoader
 
 sealed class UiState {
     data class Default(val imageUri: Uri?) : UiState()
@@ -21,6 +21,7 @@ val TAG = "AddEmbeddingViewModel"
 
 class AddEmbeddingViewModel(
     private val noseRepository: NetworkNoseRepository,
+    private val imageLoader: ImageLoader, // Подключаем ImageLoader
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Default(null))
@@ -34,20 +35,29 @@ class AddEmbeddingViewModel(
         _uiState.update { UiState.Default(imageUri) }
     }
 
-    fun addEmbedding(imageData: ByteArray, imageUri: Uri) {
+    fun addEmbedding(name: String, imageUri: Uri) {
         viewModelScope.launch {
-            val response = noseRepository.addEmbedding(imageData)
+            // Загружаем изображение
+            val imageData = imageLoader.load(imageUri)
 
-            when (response) {
-                is RequestResult.Success -> {
-                    _uiState.update { UiState.Default(imageUri) }
-                    Log.d(TAG, "Embedding added successfully")
-                }
+            // Если изображение загружено, продолжаем
+            if (imageData != null) {
+                val response = noseRepository.addEmbedding(name,imageData)
 
-                is RequestResult.Failure -> {
-                    _uiState.update { UiState.Error }
-                    Log.e(TAG, "Error adding embedding: $response")
+                when (response) {
+                    is RequestResult.Success -> {
+                        _uiState.update { UiState.Default(imageUri) }
+                        Log.d(TAG, "Embedding added successfully")
+                    }
+
+                    is RequestResult.Failure -> {
+                        _uiState.update { UiState.Error }
+                        Log.e(TAG, "Error adding embedding: $response")
+                    }
                 }
+            } else {
+                Log.e(TAG, "Error loading image for embedding")
+                _uiState.update { UiState.Error }
             }
         }
     }

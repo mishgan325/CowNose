@@ -27,78 +27,78 @@ fun AddEmbeddingScreen(
     val context = LocalContext.current
     val viewModel: AddEmbeddingViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val imageUri = (uiState as? UiState.Default)?.imageUri
 
-    when (uiState) {
-        is UiState.Default -> {
-            val state = uiState as UiState.Default
-            Column(
-                modifier = modifier
-                    .padding(horizontal = 0.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
+    var isDialogOpen by remember { mutableStateOf(false) }
 
-                AppHeader("Добавить нос", null, Modifier.padding(bottom = 10.dp))
-
-
-
-
-
-                val imageUri = state.imageUri
-
-                Column(
-                    modifier = Modifier
+    Column(
+        modifier = modifier
+            .padding(horizontal = 0.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (imageUri != null) {
+                ImagePreview(
+                    imageUri, Modifier
+                        .wrapContentSize()
+                        .clip(RoundedCornerShape(16.dp))
                         .weight(1f)
-                        .padding(horizontal = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (imageUri != null) {
-                        ImagePreview(
-                            imageUri, Modifier
-                                .wrapContentSize()
-                                .clip(RoundedCornerShape(16.dp))
-                                .weight(1f)
-                        )
-                    } else {
-                        ImagePreviewPlaceholder(
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                LoadFromGalleryButton(
-                    onImageLoad = { viewModel.setPreviewImage(it) },
-                    modifier = Modifier.padding(horizontal = 40.dp)
                 )
-
-                CapturePhotoButton(
-                    onImageLoad = { viewModel.setPreviewImage(it) },
-                    modifier = Modifier.padding(horizontal = 40.dp)
+            } else {
+                ImagePreviewPlaceholder(
+                    modifier = Modifier.weight(1f)
                 )
-
-                OutlinedButton(
-                    onClick = {
-                        if (imageUri != null) {
-                            Toast.makeText(context, "Нос будет добавлен", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Сначала выберите изображение", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(8.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 40.dp)
-                ) {
-                    Text(
-                        "Добавить нос",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
             }
         }
-        else -> {}
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        LoadFromGalleryButton(
+            onImageLoad = { viewModel.setPreviewImage(it) },
+            modifier = Modifier.padding(horizontal = 40.dp)
+        )
+
+        CapturePhotoButton(
+            onImageLoad = { viewModel.setPreviewImage(it) },
+            modifier = Modifier.padding(horizontal = 40.dp)
+        )
+
+        OutlinedButton(
+            onClick = {
+                if (imageUri != null) {
+                    isDialogOpen = true
+                } else {
+                    Toast.makeText(context, "Сначала выберите изображение", Toast.LENGTH_SHORT).show()
+                }
+            },
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 40.dp)
+        ) {
+            Text(
+                "Добавить нос",
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+    }
+
+    if (isDialogOpen) {
+        AddEmbeddingDialog(
+            onDismiss = { isDialogOpen = false },
+            onConfirm = { name ->
+                imageUri?.let {
+                    viewModel.addEmbedding(name, it)
+                    isDialogOpen = false
+                    Toast.makeText(context, "Нос будет добавлен", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 }
 

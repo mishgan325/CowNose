@@ -34,4 +34,20 @@ class NetworkNoseRepository(
         return response
     }
 
+    suspend fun addEmbedding(name: String, file: ByteArray): RequestResult<Unit> {
+        val response: RequestResult<Unit> = client.safeRequestRaw {
+
+            client.submitFormWithBinaryData(
+                url = "add-embedding?name=$name",
+                formData = formData {
+                    append("file", file, Headers.build {
+                        append(HttpHeaders.ContentType, "image/jpeg")
+                        append(HttpHeaders.ContentDisposition, "filename=\"cow.jpg\"")
+                    })
+                }
+            )
+        }
+
+        return response
+    }
 }
