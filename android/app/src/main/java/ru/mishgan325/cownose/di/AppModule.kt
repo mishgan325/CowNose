@@ -2,6 +2,7 @@ package ru.mishgan325.cownose.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
 import ru.mishgan325.cownose.data.database.AppDatabase
 import ru.mishgan325.cownose.data.database.LocalNoseRepository
 import ru.mishgan325.cownose.data.network.NetworkNoseRepository
@@ -14,7 +15,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import ru.mishgan325.cownose.data.database.AuthRepository
 import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingViewModel
+import ru.mishgan325.cownose.ui.login.LoginViewModel
 
 val koinModule = module {
     singleOf(::WebClient)
@@ -29,6 +32,12 @@ val koinModule = module {
     single { provideDatabase(androidContext()) }
     single { get<AppDatabase>().noseSearchResultDao() }
     singleOf(::LocalNoseRepository)
+
+
+    single(createdAtStart = false) { FirebaseAuth.getInstance() }
+    single { AuthRepository(get()) }
+
+    viewModelOf(::LoginViewModel)
 
 
 }

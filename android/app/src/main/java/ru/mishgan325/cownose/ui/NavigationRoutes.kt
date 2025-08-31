@@ -13,6 +13,10 @@ val topLevelRoutes = listOf(
     TopLevelRoute("История", HistoryScreenRoute, R.drawable.history)
 )
 
+@Serializable
+data object LoginScreenRoute {
+    const val route = "login"
+}
 
 @Serializable
 data object UploadScreenRoute

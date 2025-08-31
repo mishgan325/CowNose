@@ -12,7 +12,7 @@ import ru.mishgan325.cownose.ui.common.AppHeader
 @Composable
 fun NFCScreen(modifier: Modifier = Modifier) {
 
-    AppHeader("NFC", null, Modifier.padding(bottom = 10.dp))
+    AppHeader("NFC", null, null, Modifier.padding(bottom = 10.dp))
 
 
     Column(

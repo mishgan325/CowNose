@@ -10,9 +10,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
@@ -23,9 +23,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import ru.mishgan325.cownose.data.database.AuthRepository
 import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingScreen
 import ru.mishgan325.cownose.ui.history.HistoryScreen
 import ru.mishgan325.cownose.ui.historydetails.HistoryDetailsScreen
+import ru.mishgan325.cownose.ui.login.LoginScreen
 import ru.mishgan325.cownose.ui.nfc.NFCScreen
 import ru.mishgan325.cownose.ui.results.ResultsScreen
 import ru.mishgan325.cownose.ui.upload.UploadScreen
@@ -42,7 +44,10 @@ fun printBackStack(backStack: List<NavBackStackEntry>) {
 
 @SuppressLint("RestrictedApi")
 @Composable
-fun CowNoseApp(modifier: Modifier = Modifier) {
+fun CowNoseApp(
+    authRepository: AuthRepository,
+    modifier: Modifier = Modifier
+) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
 
@@ -52,66 +57,93 @@ fun CowNoseApp(modifier: Modifier = Modifier) {
     val backstack by navController.currentBackStack.collectAsStateWithLifecycle()
 
 //    printBackStack(backstack)
+
+    val isLoggedIn by authRepository.isLoggedInFlow.collectAsState()
+
+    val startDestination = if (isLoggedIn) UploadScreenRoute else LoginScreenRoute
+
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                topLevelRoutes.forEachIndexed { index, topLevelRoute ->
-                    NavigationBarItem(
-                        icon = {
-                            Icon(
-                                painterResource(topLevelRoute.icon),
-                                contentDescription = topLevelRoute.name,
-                            )
-                        },
-                        label = { Text(topLevelRoute.name) },
-                        selected = let {
-                            for (backStackEntry in backstack.reversed()) {
-                                for (route in topLevelRoutes) {
-                                    if (backStackEntry.destination.hasRoute(route.route::class)) {
-                                        return@let route == topLevelRoute
+            val isLoggedIn by authRepository.isLoggedInFlow.collectAsState()
+            if (isLoggedIn) {
+                NavigationBar {
+                    topLevelRoutes.forEachIndexed { index, topLevelRoute ->
+                        NavigationBarItem(
+                            icon = {
+                                Icon(
+                                    painterResource(topLevelRoute.icon),
+                                    contentDescription = topLevelRoute.name,
+                                )
+                            },
+                            label = { Text(topLevelRoute.name) },
+                            selected = let {
+                                for (backStackEntry in backstack.reversed()) {
+                                    for (route in topLevelRoutes) {
+                                        if (backStackEntry.destination.hasRoute(route.route::class)) {
+                                            return@let route == topLevelRoute
+                                        }
+                                    }
+                                }
+                                return@let false
+                            },
+                            onClick = {
+
+
+                                if (backStackEntry?.destination?.hasRoute(topLevelRoute.route::class) == false) {
+
+                                    navController.navigate(topLevelRoute.route) {
+
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        // on the back stack as users select items
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
                                     }
                                 }
                             }
-                            return@let false
-                        },
-                        onClick = {
-
-
-                            if (backStackEntry?.destination?.hasRoute(topLevelRoute.route::class) == false) {
-
-                                navController.navigate(topLevelRoute.route) {
-
-                                    // Pop up to the start destination of the graph to
-                                    // avoid building up a large stack of destinations
-                                    // on the back stack as users select items
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    // Avoid multiple copies of the same destination when
-                                    // reselecting the same item
-                                    launchSingleTop = true
-                                    // Restore state when reselecting a previously selected item
-                                    restoreState = true
-                                }
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
     ) { innerPadding ->
         NavHost(
             navController,
-            startDestination = UploadScreenRoute,
+            startDestination = startDestination,
             Modifier
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding)
         ) {
+            composable<LoginScreenRoute> {
+                LoginScreen(
+                    onLoginSuccess = {
+                        navController.navigate(UploadScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                    onNavigateToRegister = {}
+                )
+            }
+
+
             composable<UploadScreenRoute> {
                 UploadScreen(
                     onNavigateToResults = {
                         navController.navigate(ResultsScreenRoute) {
                         }
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(LoginScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+
+                        authRepository.logout()
                     },
                     modifier = Modifier
                 )
@@ -125,8 +157,8 @@ fun CowNoseApp(modifier: Modifier = Modifier) {
 
             composable<AddEmbeddingScreenRoute> {
                 AddEmbeddingScreen(
-                   modifier = Modifier
-               )
+                    modifier = Modifier
+                )
             }
 
             composable<HistoryScreenRoute> {

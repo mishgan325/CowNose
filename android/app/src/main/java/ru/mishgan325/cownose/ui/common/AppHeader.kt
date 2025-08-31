@@ -1,10 +1,12 @@
 package ru.mishgan325.cownose.ui.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -22,20 +24,23 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppHeader(
     title: String,
-    onNavigateBack: (() -> Unit)?,
+    onNavigateBack: (() -> Unit)? = null,
+    onLogoutClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.wrapContentHeight()
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
         ) {
             if (onNavigateBack != null) {
-                IconButton(onNavigateBack, modifier = Modifier.align(Alignment.CenterStart)) {
+                IconButton(
+                    onClick = onNavigateBack,
+                    modifier = Modifier.align(Alignment.CenterStart)
+                ) {
                     Icon(Icons.AutoMirrored.Outlined.ArrowBack, "go back")
                 }
             }
@@ -46,13 +51,24 @@ fun AppHeader(
                 style = MaterialTheme.typography.titleLarge
             )
 
+            if (onLogoutClick != null) {
+                Text(
+                    "Выйти",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 12.dp)
+                        .clickable { onLogoutClick() },
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
 
         Spacer(Modifier.height(6.dp))
         HorizontalDivider(Modifier.fillMaxWidth())
-
     }
 }
+
 
 @Composable
 @Preview(

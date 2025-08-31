@@ -30,6 +30,7 @@ import ru.mishgan325.cownose.ui.common.LoadFromGalleryButton
 @Composable
 fun UploadScreen(
     onNavigateToResults: (Uri) -> Unit,
+    onNavigateToLogin: (Uri) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -47,7 +48,7 @@ fun UploadScreen(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
 
-                AppHeader("Загрузка", null, Modifier.padding(bottom = 10.dp))
+                AppHeader("Загрузка", null, { onNavigateToLogin(Uri.EMPTY) }, Modifier.padding(bottom = 10.dp))
 
 
 
@@ -136,7 +137,7 @@ fun LoadImagePanelPreview(modifier: Modifier = Modifier) {
     showBackground = true
 )
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
-    UploadScreen({}, modifier = Modifier)
+    UploadScreen({}, onNavigateToLogin = {}, modifier = Modifier)
 }
 
 

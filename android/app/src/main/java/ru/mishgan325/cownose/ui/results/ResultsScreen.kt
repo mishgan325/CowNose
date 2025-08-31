@@ -64,7 +64,7 @@ fun ResultsScreen(
 
 
     Scaffold(
-        topBar = { AppHeader("Результаты", onNavigateBack, Modifier.padding(bottom = 10.dp)) },
+        topBar = { AppHeader("Результаты", onNavigateBack, null, Modifier.padding(bottom = 10.dp)) },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
 
