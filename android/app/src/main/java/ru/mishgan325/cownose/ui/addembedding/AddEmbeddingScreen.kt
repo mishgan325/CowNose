@@ -36,6 +36,8 @@ fun AddEmbeddingScreen(
             .padding(horizontal = 0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        AppHeader("Добавить нос", null, null, Modifier.padding(bottom = 10.dp))
+
         Column(
             modifier = Modifier
                 .weight(1f)
