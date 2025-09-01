@@ -18,6 +18,7 @@ import org.koin.dsl.module
 import ru.mishgan325.cownose.data.database.AuthRepository
 import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingViewModel
 import ru.mishgan325.cownose.ui.login.LoginViewModel
+import ru.mishgan325.cownose.ui.register.RegisterViewModel
 
 val koinModule = module {
     singleOf(::WebClient)
@@ -38,6 +39,7 @@ val koinModule = module {
     single { AuthRepository(get()) }
 
     viewModelOf(::LoginViewModel)
+    viewModelOf(::RegisterViewModel)
 
 
 }

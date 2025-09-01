@@ -29,6 +29,7 @@ import ru.mishgan325.cownose.ui.history.HistoryScreen
 import ru.mishgan325.cownose.ui.historydetails.HistoryDetailsScreen
 import ru.mishgan325.cownose.ui.login.LoginScreen
 import ru.mishgan325.cownose.ui.nfc.NFCScreen
+import ru.mishgan325.cownose.ui.register.RegisterScreen
 import ru.mishgan325.cownose.ui.results.ResultsScreen
 import ru.mishgan325.cownose.ui.upload.UploadScreen
 
@@ -127,7 +128,26 @@ fun CowNoseApp(
                             popUpTo(0) { inclusive = true }
                         }
                     },
-                    onNavigateToRegister = {}
+                    onNavigateToRegister = {
+                        navController.navigate(RegisterScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable<RegisterScreenRoute> {
+                RegisterScreen(
+                    onRegisterSuccess = {
+                        navController.navigate(UploadScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    },
+                    onNavigateToLogin = {
+                        navController.navigate(LoginScreenRoute) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
                 )
             }
 

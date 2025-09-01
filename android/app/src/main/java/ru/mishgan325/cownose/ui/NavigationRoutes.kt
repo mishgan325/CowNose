@@ -14,9 +14,10 @@ val topLevelRoutes = listOf(
 )
 
 @Serializable
-data object LoginScreenRoute {
-    const val route = "login"
-}
+data object LoginScreenRoute
+
+@Serializable
+data object RegisterScreenRoute
 
 @Serializable
 data object UploadScreenRoute

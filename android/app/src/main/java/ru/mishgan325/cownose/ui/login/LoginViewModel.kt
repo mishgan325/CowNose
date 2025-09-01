@@ -6,21 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.mishgan325.cownose.data.database.AuthRepository
-
-data class LoginUiState(
-    val email: String = "",
-    val password: String = "",
-    val farm: String = "Ферма №1",
-    val isLoading: Boolean = false,
-    val error: String? = null,
-    val isSuccess: Boolean = false
-)
+import ru.mishgan325.cownose.ui.common.AuthUiState
 
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LoginUiState())
+    private val _uiState = MutableStateFlow(AuthUiState())
     val uiState = _uiState.asStateFlow()
 
     fun onEmailChange(newEmail: String) {
