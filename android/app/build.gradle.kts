@@ -104,7 +104,7 @@ dependencies {
 
     implementation("androidx.exifinterface:exifinterface:1.4.1")
 
-    implementation(libs.firebase.bom)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ui.auth)
 
 }
