@@ -11,6 +11,10 @@
   <img src="screenshots/screen4.png" width="200" alt="Экран 4">
   <img src="screenshots/screen5.png" width="200" alt="Экран 5">
   <img src="screenshots/screen6.png" width="200" alt="Экран 6">
+  <img src="screenshots/screen7.png" width="200" alt="Экран 7">
+  <img src="screenshots/screen8.png" width="200" alt="Экран 8">
+  <img src="screenshots/screen9.png" width="200" alt="Экран 9">
+  <img src="screenshots/screen10.png" width="200" alt="Экран 10">
 </div>
 
 ## Демонстрация
