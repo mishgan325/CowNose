@@ -19,7 +19,7 @@
 
 ## Демонстрация
 
-https://youtube.com/shorts/q4XvADszt3Q?feature=share
+[https://youtube.com/shorts/q4XvADszt3Q?feature=share](https://drive.google.com/file/d/1Rom4Knj63755_It1BX3_BQguH7GKtN1H/view?usp=sharing)
 
 ## Технологии
 
