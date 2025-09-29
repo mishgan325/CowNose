@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.data.database.entities
+package ru.mishgan325.cownose.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -20,5 +20,3 @@ data class NoseSearchResultEntity(
     val embeddingSize: Int,
     val searchAlgorithm: String
 )
-
-

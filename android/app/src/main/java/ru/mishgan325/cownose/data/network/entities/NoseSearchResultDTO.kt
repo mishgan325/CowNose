@@ -5,10 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NoseSearchResultDTO(
     val status: String,
-    val nose_coordinates: NoseCoordinatesDTO,
-    val similar_cows: List<SimilarCowDTO>,
-    val database_size: Int,
-    val embedding_size: Int,
-    val search_algorithm: String
+    val noseCoordinates: NoseCoordinatesDTO,
+    val similarCows: List<SimilarCowDTO>,
+    val databaseSize: Int,
+    val embeddingSize: Int,
+    val searchAlgorithm: String
 )
-

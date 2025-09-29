@@ -1,33 +1,26 @@
-package ru.mishgan325.cownose.data.database
+package ru.mishgan325.cownose.data.network.repository
 
-import android.util.Log
-import ru.mishgan325.cownose.data.database.entities.NoseSearchResultEntity
-import ru.mishgan325.cownose.data.database.entities.SimilarCowEntity
-import ru.mishgan325.cownose.domain.entities.NoseSearchResult
-import ru.mishgan325.cownose.domain.entities.toDomain
+import android.os.Build
+import androidx.annotation.RequiresApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import ru.mishgan325.cownose.data.database.dao.NoseSearchResultDao
+import ru.mishgan325.cownose.data.database.entity.NoseSearchResult
+import ru.mishgan325.cownose.data.database.entity.NoseSearchResultEntity
+import ru.mishgan325.cownose.data.database.entity.SimilarCowEntity
+import ru.mishgan325.cownose.data.database.entity.toDomain
 import java.io.File
 import java.time.ZoneOffset
+import javax.inject.Inject
 
-const val TAG = "LocalNoseRepository"
-// Repository
-class LocalNoseRepository(
-    private val dao: NoseSearchResultDao
-) {
-
+class LocalNoseRepository @Inject constructor(private val noseSearchResultDao: NoseSearchResultDao) {
+    @RequiresApi(value = Build.VERSION_CODES.O)
     suspend fun insertNoseSearchResult(result: NoseSearchResult) {
         val entity = NoseSearchResultEntity(
-
             status = result.status,
-            imagePath = result.imageFilepath ?: let {
-                Log.d(
-                    TAG,
-                    "insertNoseSearchResult: imagePath was null, inserted empty string"
-                ); ""
-            },
+            imagePath = result.imageFilepath ?: "",
             left = result.noseCoordinates.left,
             top = result.noseCoordinates.top,
             right = result.noseCoordinates.right,
@@ -39,7 +32,7 @@ class LocalNoseRepository(
             searchAlgorithm = result.searchAlgorithm,
             date = result.date.toEpochSecond(ZoneOffset.UTC)
         )
-        val searchResultId = dao.insertNoseSearchResult(entity).toInt()
+        val searchResultId = noseSearchResultDao.insertNoseSearchResult(result = entity).toInt()
         val cowEntities = result.similarCows.map {
             SimilarCowEntity(
                 id = 0,
@@ -49,28 +42,26 @@ class LocalNoseRepository(
                 searchResultId = searchResultId
             )
         }
-        dao.insertSimilarCows(cowEntities)
+        noseSearchResultDao.insertSimilarCows(cows = cowEntities)
     }
 
+    @RequiresApi(value = Build.VERSION_CODES.O)
     fun getNoseSearchResult(id: Int): Flow<NoseSearchResult?> =
-        dao.getResultWithSimilarCows(id).map { entity ->
-            entity?.toDomain()
-        }
+        noseSearchResultDao.getResultWithSimilarCows(id).map { entity -> entity?.toDomain() }
 
+    @RequiresApi(value = Build.VERSION_CODES.O)
     fun getAllNoseSearchResults(): Flow<List<NoseSearchResult>> =
-        dao.getAllResultsWithSimilarCows().map { list ->
-            list.map { it.toDomain() }
-        }
+        noseSearchResultDao.getAllResultsWithSimilarCows()
+            .map { list -> list.map { it.toDomain() } }
 
     suspend fun deleteNoseSearchResult(id: Int, imageFilepath: String?) {
-        withContext(Dispatchers.IO) {
-            dao.deleteNoseSearchResultById(id)
-            dao.deleteSimilarCowsBySearchResultId(id)
+        withContext(context = Dispatchers.IO) {
+            noseSearchResultDao.deleteNoseSearchResultById(id)
+            noseSearchResultDao.deleteSimilarCowsBySearchResultId(searchResultId = id)
             imageFilepath?.let { path ->
                 val file = File(path)
-                if (file.exists()) {
+                if (file.exists())
                     file.delete()
-                }
             }
         }
     }

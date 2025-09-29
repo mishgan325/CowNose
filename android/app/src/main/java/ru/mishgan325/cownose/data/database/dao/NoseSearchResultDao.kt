@@ -1,15 +1,14 @@
-package ru.mishgan325.cownose.data.database
+package ru.mishgan325.cownose.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import ru.mishgan325.cownose.data.database.entities.NoseSearchResultEntity
-import ru.mishgan325.cownose.data.database.entities.NoseSearchResultWithSimilarCows
-import ru.mishgan325.cownose.data.database.entities.SimilarCowEntity
 import kotlinx.coroutines.flow.Flow
-
+import ru.mishgan325.cownose.data.database.entity.NoseSearchResultEntity
+import ru.mishgan325.cownose.data.database.entity.NoseSearchResultWithSimilarCows
+import ru.mishgan325.cownose.data.database.entity.SimilarCowEntity
 
 @Dao
 interface NoseSearchResultDao {

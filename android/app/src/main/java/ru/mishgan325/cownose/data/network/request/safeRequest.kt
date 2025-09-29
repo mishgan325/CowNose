@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.data.network
+package ru.mishgan325.cownose.data.network.request
 
 import android.util.Log
 import io.ktor.client.HttpClient
@@ -10,41 +10,29 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
-import io.ktor.util.network.UnresolvedAddressException
-import kotlinx.coroutines.CancellationException
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
+import java.nio.channels.UnresolvedAddressException
+import kotlin.coroutines.cancellation.CancellationException
 
-
-val TAG = "RequestHandler"
-
-sealed class RequestError {
-    data object NetworkError : RequestError()
-    data class ApiError(val message: String?, val code: Int? = null) : RequestError()
-    data class UnknownError(val message: String?) : RequestError()
-}
-
-sealed class RequestResult<out T> {
-    data class Success<out T>(val data: T) : RequestResult<T>()
-    data class Failure(val error: RequestError) : RequestResult<Nothing>()
-
-    fun <R> transform(block: (T) -> R): RequestResult<R> = when (this) {
-        is Success -> Success(block(this.data))
-        is Failure -> Failure(this.error)
-    }
-
-}
-
-suspend inline fun <reified T> HttpClient.safeRequest(
-    block: HttpRequestBuilder.() -> Unit,
-): RequestResult<T> {
-    return try {
+suspend inline fun <reified T> HttpClient.safeRequest(block: HttpRequestBuilder.() -> Unit): RequestResult<T> =
+    try {
         val response = request { block() }
-        RequestResult.Success(response.body())
+        RequestResult.Success(data = response.body())
     } catch (e: ClientRequestException) {
-        RequestResult.Failure(RequestError.ApiError(e.message, e.response.status.value))
+        RequestResult.Failure(
+            error = RequestError.ApiError(
+                message = e.message,
+                code = e.response.status.value
+            )
+        )
     } catch (e: ServerResponseException) {
-        RequestResult.Failure(RequestError.ApiError(e.message, e.response.status.value))
+        RequestResult.Failure(
+            error = RequestError.ApiError(
+                message = e.message,
+                code = e.response.status.value
+            )
+        )
     } catch (_: IOException) {
         RequestResult.Failure(RequestError.NetworkError)
     } catch (_: SerializationException) {
@@ -53,16 +41,12 @@ suspend inline fun <reified T> HttpClient.safeRequest(
         RequestResult.Failure(RequestError.NetworkError)
     } catch (e: Exception) {
         if (e is CancellationException) throw (e)
-        Log.d(TAG, "ktor got unknown exception: ${e.message}")
-        RequestResult.Failure(RequestError.UnknownError(e.message))
-
+        Log.d("RequestHandler", "ktor got unknown exception: ${e.message}")
+        RequestResult.Failure(error = RequestError.UnknownError(message = e.message))
     }
-}
 
-suspend inline fun <reified T> HttpClient.safeRequestRaw(
-    block: () -> HttpResponse,
-): RequestResult<T> {
-    return try {
+suspend inline fun <reified T> HttpClient.safeRequestRaw(block: () -> HttpResponse): RequestResult<T> =
+    try {
         val response = block()
         RequestResult.Success(response.body())
     } catch (e: ClientRequestException) {
@@ -77,12 +61,9 @@ suspend inline fun <reified T> HttpClient.safeRequestRaw(
         RequestResult.Failure(RequestError.NetworkError)
     } catch (e: Exception) {
         if (e is CancellationException) throw (e)
-        Log.d(TAG, "ktor got unknown exception: ${e.message}")
-
-        RequestResult.Failure(RequestError.UnknownError(e.message))
-
+        Log.d("RequestHandler", "ktor got unknown exception: ${e.message}")
+        RequestResult.Failure(error = RequestError.UnknownError(message = e.message))
     }
-}
 
 suspend inline fun <reified T> HttpClient.safeGet(
     urlString: String,
@@ -101,7 +82,6 @@ suspend inline fun <reified T> HttpClient.safePost(
     method = HttpMethod.Companion.Post
     block()
 }
-
 
 suspend inline fun <reified T> HttpClient.safePatch(
     urlString: String,

@@ -1,9 +1,8 @@
-package ru.mishgan325.cownose.data.database.entities
+package ru.mishgan325.cownose.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import ru.mishgan325.cownose.domain.entities.SimilarCow
 
 @Entity(
     tableName = "similar_cows",
@@ -21,7 +20,7 @@ data class SimilarCowEntity(
     val name: String,
     val similarity: Double,
     val imageUrl: String,
-    val searchResultId: Int // Foreign key reference
+    val searchResultId: Int
 )
 
 
