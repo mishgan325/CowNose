@@ -3,50 +3,60 @@ package ru.mishgan325.cownose.di
 import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import ru.mishgan325.cownose.data.database.AppDatabase
-import ru.mishgan325.cownose.data.database.LocalNoseRepository
-import ru.mishgan325.cownose.data.network.NetworkNoseRepository
+import ru.mishgan325.cownose.data.database.dao.NoseSearchResultDao
 import ru.mishgan325.cownose.data.network.WebClient
-import ru.mishgan325.cownose.ui.history.HistoryViewModel
-import ru.mishgan325.cownose.ui.results.ResultViewModel
-import ru.mishgan325.cownose.ui.upload.UploadViewModel
+import ru.mishgan325.cownose.data.network.repository.AuthRepository
+import ru.mishgan325.cownose.data.network.repository.CowNoseRepository
+import ru.mishgan325.cownose.data.network.repository.LocalNoseRepository
 import ru.mishgan325.cownose.ui.utlis.ImageLoader
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.module
-import ru.mishgan325.cownose.data.database.AuthRepository
-import ru.mishgan325.cownose.ui.addembedding.AddEmbeddingViewModel
-import ru.mishgan325.cownose.ui.login.LoginViewModel
-import ru.mishgan325.cownose.ui.register.RegisterViewModel
+import javax.inject.Singleton
 
-val koinModule = module {
-    singleOf(::WebClient)
-    singleOf(::NetworkNoseRepository)
-    single { ImageLoader(androidContext()) }
+@Module
+@InstallIn(value = [SingletonComponent::class])
+object MyModule {
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
-    viewModelOf(::UploadViewModel)
-    viewModelOf(::ResultViewModel)
-    viewModelOf(::HistoryViewModel)
-    viewModelOf(::AddEmbeddingViewModel)
+    @Provides
+    @Singleton
+    fun provideWebClient(): WebClient = WebClient()
 
-    single { provideDatabase(androidContext()) }
-    single { get<AppDatabase>().noseSearchResultDao() }
-    singleOf(::LocalNoseRepository)
+    @Provides
+    @Singleton
+    fun provideAuthRepository(firebaseAuth: FirebaseAuth): AuthRepository =
+        AuthRepository(firebaseAuth = firebaseAuth)
 
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(context, klass = AppDatabase::class.java, name = "app.db")
+            .fallbackToDestructiveMigration(dropAllTables = false)
+            .build()
 
-    single(createdAtStart = false) { FirebaseAuth.getInstance() }
-    single { AuthRepository(get()) }
+    @Provides
+    @Singleton
+    fun provideNoseSearchResultDao(appDatabase: AppDatabase): NoseSearchResultDao =
+        appDatabase.noseSearchResultDao()
 
-    viewModelOf(::LoginViewModel)
-    viewModelOf(::RegisterViewModel)
+    @Provides
+    @Singleton
+    fun provideCowNoseRepository(webClient: WebClient): CowNoseRepository =
+        CowNoseRepository(webClient = webClient)
 
+    @Provides
+    @Singleton
+    fun provideLocalNoseRepository(noseSearchResultDao: NoseSearchResultDao) =
+        LocalNoseRepository(noseSearchResultDao = noseSearchResultDao)
 
+    @Provides
+    @Singleton
+    fun provideImageLoader(@ApplicationContext context: Context): ImageLoader =
+        ImageLoader(context = context)
 }
-
-fun provideDatabase(context: Context): AppDatabase =
-    Room.databaseBuilder(
-        context.applicationContext,
-        AppDatabase::class.java,
-        "nose_database"
-    ).build()
