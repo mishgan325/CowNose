@@ -2,7 +2,7 @@ package ru.mishgan325.cownose.data.database.entity
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import ru.mishgan325.cownose.data.network.entity.NoseSearchResultDTO
+import ru.mishgan325.cownose.data.network.dto.NoseSearchResultDTO
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
