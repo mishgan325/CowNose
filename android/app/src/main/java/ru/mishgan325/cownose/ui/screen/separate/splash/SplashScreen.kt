@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import ru.mishgan325.cownose.R
 import kotlinx.coroutines.delay
+import ru.mishgan325.cownose.R
 
 @Composable
 fun SplashScreen(

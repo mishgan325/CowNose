@@ -52,6 +52,7 @@ fun AppNavigation() {
         topBar = {
             if (isSeparateScreen == false || isProfileScreen == true) {
                 AppHeader(
+                    appBarViewModel = hiltViewModel(),
                     currentScreen = currentScreen,
                     isProfileScreen = isProfileScreen == true,
                     onNavigateToProfile = { navController.navigate(ProfileScreenRoute) },
@@ -121,9 +122,7 @@ fun AppNavigation() {
                     )
                 }
                 composable<ProfileScreenRoute> {
-                    ProfileScreen(
-                        profileViewModel = hiltViewModel()
-                    )
+                    ProfileScreen(profileViewModel = hiltViewModel())
                 }
                 composable<HistoryDetailsScreenRoute> {
                     val route: HistoryDetailsScreenRoute = it.toRoute()

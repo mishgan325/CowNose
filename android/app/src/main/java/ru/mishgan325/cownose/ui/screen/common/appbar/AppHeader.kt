@@ -23,6 +23,7 @@ import ru.mishgan325.cownose.R
 @OptIn(markerClass = [ExperimentalMaterial3Api::class])
 @Composable
 fun AppHeader(
+    appBarViewModel: AppBarViewModel,
     currentScreen: String,
     isProfileScreen: Boolean,
     onNavigateToProfile: () -> Unit,
@@ -54,6 +55,8 @@ fun AppHeader(
                         } else {
                             onLogout()
                             touchCounter.intValue = 0
+                            appBarViewModel.logout()
+                            appBarViewModel.cleanUp()
                         }
                     } else {
                         onNavigateToProfile()
