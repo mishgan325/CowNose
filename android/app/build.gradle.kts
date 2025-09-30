@@ -13,11 +13,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.newcownose"
+    namespace = "ru.mishgan325.cownose"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.newcownose"
+        applicationId = "ru.mishgan325.cownose"
         minSdk = 23
         targetSdk = 35
         versionCode = 1
