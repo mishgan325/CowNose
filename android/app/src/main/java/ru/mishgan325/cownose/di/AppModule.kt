@@ -14,7 +14,7 @@ import ru.mishgan325.cownose.data.network.WebClient
 import ru.mishgan325.cownose.data.network.repository.AuthRepository
 import ru.mishgan325.cownose.data.network.repository.CowNoseRepository
 import ru.mishgan325.cownose.data.network.repository.LocalNoseRepository
-import ru.mishgan325.cownose.ui.utlis.ImageLoader
+import ru.mishgan325.cownose.ui.utils.ImageLoader
 import javax.inject.Singleton
 
 @Module

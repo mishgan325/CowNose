@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.ui.utlis
+package ru.mishgan325.cownose.ui.utils
 
 import android.content.Context
 import android.graphics.Bitmap

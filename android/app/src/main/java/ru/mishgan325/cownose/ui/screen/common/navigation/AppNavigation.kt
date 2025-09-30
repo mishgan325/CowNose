@@ -80,15 +80,15 @@ fun AppNavigation() {
                         splashViewModel = hiltViewModel(),
                         onNavigateToSearchScreen = {
                             navController.navigate(SearchScreenRoute) {
-                                NavOptionsBuilder.popUpTo(SplashScreenRoute) {
-                                    PopUpToBuilder.inclusive = true
+                                NavOptionsBuilder().popUpTo(SplashScreenRoute) {
+                                    PopUpToBuilder().inclusive = true
                                 }
                             }
                         },
                         onNavigateToLoginScreen = {
                             navController.navigate(LoginScreenRoute) {
-                                NavOptionsBuilder.popUpTo(SplashScreenRoute) {
-                                    PopUpToBuilder.inclusive = true
+                                NavOptionsBuilder().popUpTo(SplashScreenRoute) {
+                                    PopUpToBuilder().inclusive = true
                                 }
                             }
                         }
@@ -100,8 +100,8 @@ fun AppNavigation() {
                         onNavigateToRegisterScreen = { navController.navigate(RegisterScreenRoute) },
                         onNavigateToSearchScreen = {
                             navController.navigate(SearchScreenRoute) {
-                                NavOptionsBuilder.popUpTo(LoginScreenRoute) {
-                                    PopUpToBuilder.inclusive = true
+                                NavOptionsBuilder().popUpTo(LoginScreenRoute) {
+                                    PopUpToBuilder().inclusive = true
                                 }
                             }
                         }
@@ -112,8 +112,8 @@ fun AppNavigation() {
                         registerViewModel = hiltViewModel(),
                         onNavigateToLoginScreen = {
                             navController.navigate(LoginScreenRoute) {
-                                NavOptionsBuilder.popUpTo(RegisterScreenRoute) {
-                                    PopUpToBuilder.inclusive = true
+                                NavOptionsBuilder().popUpTo(RegisterScreenRoute) {
+                                    PopUpToBuilder().inclusive = true
                                 }
                             }
                         }
@@ -146,8 +146,8 @@ fun AppNavigation() {
                         resultsViewModel = hiltViewModel(),
                         onNavigateToSearch = {
                             navController.navigate(SearchScreenRoute) {
-                                NavOptionsBuilder.popUpTo(SearchScreenRoute) {
-                                    PopUpToBuilder.inclusive = true
+                                NavOptionsBuilder().popUpTo(SearchScreenRoute) {
+                                    PopUpToBuilder().inclusive = true
                                 }
                                 launchSingleTop = true
                             }
