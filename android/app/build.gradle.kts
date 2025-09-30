@@ -93,4 +93,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    // Glide
+    implementation(libs.landscapist.glide)
+    // Icons
+    implementation(libs.androidx.compose.material.icons.extended)
 }
