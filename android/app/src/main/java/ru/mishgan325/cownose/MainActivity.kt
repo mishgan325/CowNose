@@ -11,7 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import ru.mishgan325.cownose.ui.screen.common.navigation.AppNavigation
-import ru.mishgan325.cownose.ui.theme.NewCowNoseTheme
+import ru.mishgan325.cownose.ui.theme.CowNoseTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            NewCowNoseTheme {
+            CowNoseTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

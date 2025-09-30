@@ -71,7 +71,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun NewCowNoseTheme(
+fun CowNoseTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

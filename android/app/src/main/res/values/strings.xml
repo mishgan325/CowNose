@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewCowNose</string>
+    <string name="app_name">CowNose</string>
     <string name="enter_name_for_nose">Enter a name for the nose</string>
     <string name="name">Name</string>
     <string name="confirm">Confirm</string>

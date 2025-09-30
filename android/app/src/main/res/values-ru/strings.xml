@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NewCowNose</string>
+    <string name="app_name">CowNose</string>
     <string name="enter_name_for_nose">Введите имя для носа</string>
     <string name="name">Имя</string>
     <string name="confirm">Подтвердить</string>
