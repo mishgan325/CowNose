@@ -28,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,8 +36,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import ru.mishgan325.cownose.R
 import kotlinx.coroutines.launch
+import ru.mishgan325.cownose.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +64,8 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
             contentDescription = "App Logo",
             modifier = Modifier
                 .size(size = 120.dp)
-                .padding(bottom = 32.dp)
+                .padding(bottom = 32.dp),
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
         )
 
         Text(
@@ -79,6 +81,13 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
             label = { Text("Email") },
             placeholder = { Text("example@domain.com") },
             singleLine = true,
+            leadingIcon = {
+                Image(
+                    painter = painterResource(id = R.drawable.email),
+                    contentDescription = "Email Icon",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                )
+            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -98,6 +107,13 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Next
             ),
+            leadingIcon = {
+                Image(
+                    painter = painterResource(id = R.drawable.password),
+                    contentDescription = "Password Icon",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .bringIntoViewRequester(bringIntoViewRequester)
@@ -113,6 +129,13 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
+            leadingIcon = {
+                Image(
+                    painter = painterResource(id = R.drawable.password),
+                    contentDescription = "Password Icon",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                )
+            },
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
             modifier = Modifier
                 .fillMaxWidth()
@@ -131,8 +154,9 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
                 textStyle = MaterialTheme.typography.bodyMedium,
                 leadingIcon = {
                     Image(
-                        painter = painterResource(id = R.drawable.search),
-                        contentDescription = "Farm Icon"
+                        painter = painterResource(id = R.drawable.gite_24px),
+                        contentDescription = "Farm Icon",
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                     )
                 },
                 label = { Text(text = stringResource(id = R.string.farm)) },

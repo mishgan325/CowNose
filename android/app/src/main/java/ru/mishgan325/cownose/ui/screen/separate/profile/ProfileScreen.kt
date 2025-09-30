@@ -33,9 +33,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import ru.mishgan325.cownose.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import ru.mishgan325.cownose.R
 
 @Composable
 fun ProfileScreen(profileViewModel: ProfileViewModel) {
@@ -59,16 +59,15 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 10.dp, vertical = 24.dp), // верх/низ вместо Spacer
+                .padding(horizontal = 10.dp, vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp) // интервалы между блоками вместо Spacer
+            verticalArrangement = Arrangement.spacedBy(space = 24.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                // Аватар
                 Surface(
                     modifier = Modifier
                         .size(size = 200.dp)
@@ -129,7 +128,6 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
                         }
                     }
 
-                    // Пример основной кнопки (редактирование/сохранение)
                     Button(
                         onClick = { /* TODO: profileViewModel.onEdit() */ },
                         modifier = Modifier.fillMaxWidth(),

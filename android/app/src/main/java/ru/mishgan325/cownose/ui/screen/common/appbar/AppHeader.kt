@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import ru.mishgan325.cownose.R
 
@@ -61,11 +62,13 @@ fun AppHeader(
             ) {
                 if (isProfileScreen) Image(
                     imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "Log out"
+                    contentDescription = "Log out",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                 )
                 else Image(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "User Profile"
+                    contentDescription = "User Profile",
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                 )
             }
         },

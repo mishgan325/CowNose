@@ -2,12 +2,13 @@ package ru.mishgan325.cownose.ui.screen.common.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import ru.mishgan325.cownose.R
 import kotlinx.serialization.Serializable
+import ru.mishgan325.cownose.R
 
 sealed interface AppIcon {
     data class Vector(val image: ImageVector) : AppIcon
@@ -19,10 +20,16 @@ data class AppScreenRoute<T : Any>(val name: String, val route: T, val icon: App
 @Composable
 fun AppIcon(icon: AppIcon, contentDescription: String?) {
     when (icon) {
-        is AppIcon.Vector -> Icon(imageVector = icon.image, contentDescription = contentDescription)
+        is AppIcon.Vector -> Icon(
+            imageVector = icon.image,
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onBackground
+        )
+
         is AppIcon.Res -> Icon(
             painter = painterResource(icon.resId),
-            contentDescription = contentDescription
+            contentDescription = contentDescription,
+            tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -51,7 +58,7 @@ fun AppScreenRoutes(): List<AppScreenRoute<*>> = listOf(
     ),
 )
 
-// Separate Screens
+
 @Serializable
 data object SeparateScreensRoute
 
