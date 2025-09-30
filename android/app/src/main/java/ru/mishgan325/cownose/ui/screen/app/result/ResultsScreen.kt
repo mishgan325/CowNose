@@ -62,7 +62,7 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
         when (uiState) {
             is UiState.InProgress ->
                 Box(
-                    modifier = Modifier.fillMaxSize(),
+                    Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) { CircularProgressIndicator() }
 
@@ -70,10 +70,12 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                 val state = uiState
 
                 // Формируем список (url, cow) для Glide
-                val similarCows = state.nose.similarCows.take(n = 3).map { cow ->
-                    val url = BASE_URL + cow.imageUrl.removePrefix(prefix = "/")
-                    url to cow
-                }
+                val similarCows = state.nose.similarCows
+                    .take(3)
+                    .map { cow ->
+                        val url = BASE_URL + cow.imageUrl.removePrefix("/")
+                        url to cow
+                    }
 
                 // Контент экрана
                 Column(
@@ -157,13 +159,6 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                                 nose = state.nose,
                                 imageUri = state.imageUri
                             )
-                            scope.launch {
-                                delay(100)
-                                snackBarHostState.showSnackbar(
-                                    message = context.getString(R.string.saved),
-                                    withDismissAction = true
-                                )
-                            }
                         },
                         onTryAgainClick = { onNavigateToSearch() },
                         showSavedMessage = state.showSavedMessage
