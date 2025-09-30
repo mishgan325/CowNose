@@ -1,7 +1,7 @@
 package ru.mishgan325.cownose.data.database.entity
 
 import kotlinx.serialization.Serializable
-import ru.mishgan325.cownose.data.network.entities.SimilarCowDTO
+import ru.mishgan325.cownose.data.network.entity.SimilarCowDTO
 
 @Serializable
 data class SimilarCow(

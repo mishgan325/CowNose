@@ -8,7 +8,7 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.mishgan325.cownose.data.network.WebClient
-import ru.mishgan325.cownose.data.network.entities.NoseSearchResultDTO
+import ru.mishgan325.cownose.data.network.entity.NoseSearchResultDTO
 import ru.mishgan325.cownose.data.network.request.RequestResult
 import ru.mishgan325.cownose.data.network.request.safeRequestRaw
 import javax.inject.Inject

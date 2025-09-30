@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.data.network.entities
+package ru.mishgan325.cownose.data.network.entity
 
 import kotlinx.serialization.Serializable
 
