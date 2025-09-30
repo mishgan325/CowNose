@@ -20,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import ru.mishgan325.cownose.ui.screen.app.addembedding.AddEmbeddingScreen
 import ru.mishgan325.cownose.ui.screen.app.history.HistoryScreen
 import ru.mishgan325.cownose.ui.screen.app.nfc.NFCScreen
@@ -125,8 +126,10 @@ fun AppNavigation() {
                     )
                 }
                 composable<HistoryDetailsScreenRoute> {
+                    val route: HistoryDetailsScreenRoute = it.toRoute()
+
                     HistoryDetailsScreen(
-                        noseSearchResultId = id,
+                        noseSearchResultId = route.id,
                         historyViewModel = hiltViewModel()
                     )
                 }
@@ -157,8 +160,8 @@ fun AppNavigation() {
                 composable<HistoryScreenRoute> {
                     HistoryScreen(
                         historyViewModel = hiltViewModel(),
-                        onNavigateToDetails = {
-                            navController.navigate(route = HistoryDetailsScreenRoute(id = id)) {
+                        onNavigateToDetails = { resultId ->
+                            navController.navigate(route = HistoryDetailsScreenRoute(id = resultId)) {
                                 launchSingleTop = true
                             }
                         }
