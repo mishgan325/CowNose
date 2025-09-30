@@ -42,28 +42,35 @@ fun AppNavigation() {
 
     val isSeparateScreen = destination?.hierarchy?.any { it.hasRoute<SeparateScreensRoute>() }
     val isProfileScreen = destination?.hierarchy?.any { it.hasRoute<ProfileScreenRoute>() }
-
-    val currentScreen = AppScreenRoutes().firstOrNull { routeItem ->
-        destination?.hasRoute(route = routeItem.route::class) == true
-    }?.name.orEmpty()
+    val isDetailsScreen = destination?.hierarchy?.any { it.hasRoute<HistoryDetailsScreenRoute>() }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            if (isSeparateScreen == false || isProfileScreen == true) {
+            if (isSeparateScreen == false || isProfileScreen == true || isDetailsScreen == true) {
                 AppHeader(
                     appBarViewModel = hiltViewModel(),
-                    currentScreen = currentScreen,
+                    currentScreen = AppScreenRoutes().firstOrNull { routeItem ->
+                        destination.hasRoute(route = routeItem.route::class)
+                    }?.name.orEmpty(),
                     isProfileScreen = isProfileScreen == true,
                     onNavigateToProfile = { navController.navigate(ProfileScreenRoute) },
-                    onLogout = { navController.navigate(LoginScreenRoute) { popUpTo(id = 0) } }
+                    onLogout = {
+                        navController.navigate(SeparateScreensRoute) {
+                            popUpTo<AppScreensRoute> { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    },
+                    onNavigateBack = { navController.navigateUp() },
+                    showBack = isProfileScreen == true || isDetailsScreen == true,
+                    showProfileAction = isDetailsScreen != true
                 )
             }
         },
         bottomBar = {
             if (isSeparateScreen == false || isProfileScreen == true)
                 AppBottom(
-                    currentScreen = currentScreen,
+                    destination = destination,
                     navController = navController
                 )
         }
@@ -81,17 +88,15 @@ fun AppNavigation() {
                     SplashScreen(
                         splashViewModel = hiltViewModel(),
                         onNavigateToSearchScreen = {
-                            navController.navigate(SearchScreenRoute) {
-                                NavOptionsBuilder().popUpTo(SplashScreenRoute) {
-                                    PopUpToBuilder().inclusive = true
-                                }
+                            navController.navigate(AppScreensRoute) {
+                                popUpTo<SeparateScreensRoute> { inclusive = true }
+                                launchSingleTop = true
                             }
                         },
                         onNavigateToLoginScreen = {
                             navController.navigate(LoginScreenRoute) {
-                                NavOptionsBuilder().popUpTo(SplashScreenRoute) {
-                                    PopUpToBuilder().inclusive = true
-                                }
+                                popUpTo<SplashScreenRoute> { inclusive = true }
+                                launchSingleTop = true
                             }
                         }
                     )
@@ -99,31 +104,27 @@ fun AppNavigation() {
                 composable<LoginScreenRoute> {
                     LoginScreen(
                         loginViewModel = hiltViewModel(),
-                        onNavigateToRegisterScreen = { navController.navigate(RegisterScreenRoute) },
                         onNavigateToSearchScreen = {
-                            navController.navigate(SearchScreenRoute) {
-                                NavOptionsBuilder().popUpTo(LoginScreenRoute) {
-                                    PopUpToBuilder().inclusive = true
-                                }
+                            navController.navigate(AppScreensRoute) {
+                                popUpTo<SeparateScreensRoute> { inclusive = true }
+                                launchSingleTop = true
                             }
-                        }
+                        },
+                        onNavigateToRegisterScreen = { navController.navigate(RegisterScreenRoute) },
                     )
                 }
                 composable<RegisterScreenRoute> {
                     RegisterScreen(
                         registerViewModel = hiltViewModel(),
                         onNavigateToLoginScreen = {
-                            navController.navigate(LoginScreenRoute) {
-                                NavOptionsBuilder().popUpTo(RegisterScreenRoute) {
-                                    PopUpToBuilder().inclusive = true
-                                }
+                            navController.navigate(AppScreensRoute) {
+                                popUpTo<SeparateScreensRoute> { inclusive = true }
+                                launchSingleTop = true
                             }
                         }
                     )
                 }
-                composable<ProfileScreenRoute> {
-                    ProfileScreen(profileViewModel = hiltViewModel())
-                }
+                composable<ProfileScreenRoute> { ProfileScreen(profileViewModel = hiltViewModel()) }
                 composable<HistoryDetailsScreenRoute> {
                     val route: HistoryDetailsScreenRoute = it.toRoute()
 
@@ -138,8 +139,9 @@ fun AppNavigation() {
                 composable<SearchScreenRoute> {
                     SearchScreen(
                         searchViewModel = hiltViewModel(),
-                        onNavigateToResults = { navController.navigate(ResultsScreenRoute) }
-                    )
+                        onNavigateToResults = {
+                            navController.navigate(ResultsScreenRoute) { launchSingleTop = true }
+                        })
                 }
                 composable<NFCScreenRoute> { NFCScreen() }
                 composable<AddEmbeddingScreenRoute> { AddEmbeddingScreen(addEmbeddingViewModel = hiltViewModel()) }

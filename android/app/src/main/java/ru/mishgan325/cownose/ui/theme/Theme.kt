@@ -89,7 +89,7 @@ fun CowNoseTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        shapes = shapes,
+        shapes = Shapes,
         typography = typography,
         content = content
     )

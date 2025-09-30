@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +28,10 @@ fun AppHeader(
     currentScreen: String,
     isProfileScreen: Boolean,
     onNavigateToProfile: () -> Unit,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onNavigateBack: () -> Unit,
+    showBack: Boolean,
+    showProfileAction: Boolean = true
 ) {
     val context = LocalContext.current
     val touchCounter = remember { mutableIntStateOf(value = 0) }
@@ -37,43 +41,54 @@ fun AppHeader(
         colors = TopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             scrolledContainerColor = MaterialTheme.colorScheme.background,
-            actionIconContentColor = MaterialTheme.colorScheme.onBackground,
             navigationIconContentColor = MaterialTheme.colorScheme.onBackground,
             titleContentColor = MaterialTheme.colorScheme.onBackground,
+            actionIconContentColor = MaterialTheme.colorScheme.onBackground,
+            subtitleContentColor = MaterialTheme.colorScheme.onBackground
         ),
         actions = {
-            IconButton(
-                onClick = {
-                    if (isProfileScreen) {
-                        if (touchCounter.intValue == 0) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.press_again_to_logout),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            touchCounter.intValue = 1
-                        } else {
-                            onLogout()
-                            touchCounter.intValue = 0
-                            appBarViewModel.logout()
-                            appBarViewModel.cleanUp()
-                        }
-                    } else {
-                        onNavigateToProfile()
+            if (showProfileAction)
+                IconButton(
+                    onClick = {
+                        if (isProfileScreen) {
+                            if (touchCounter.intValue == 0) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.press_again_to_logout),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                touchCounter.intValue = 1
+                            } else {
+                                onLogout()
+                                touchCounter.intValue = 0
+                                appBarViewModel.logout()
+                                appBarViewModel.cleanUp()
+                            }
+                        } else
+                            onNavigateToProfile()
                     }
+                ) {
+                    if (isProfileScreen) Image(
+                        imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                        contentDescription = "Log out",
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                    )
+                    else Image(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "User Profile",
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                    )
                 }
-            ) {
-                if (isProfileScreen) Image(
-                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "Log out",
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
-                )
-                else Image(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "User Profile",
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
-                )
-            }
+        },
+        navigationIcon = {
+            if (showBack)
+                IconButton(onClick = { onNavigateBack() }) {
+                    Image(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
+                    )
+                }
         },
         title = { Text(text = currentScreen) }
     )
