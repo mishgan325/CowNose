@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
@@ -32,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.skydoves.landscapist.InternalLandscapistApi
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -40,7 +38,6 @@ import ru.mishgan325.cownose.R
 import ru.mishgan325.cownose.data.database.entity.NoseCoordinates
 import ru.mishgan325.cownose.data.database.entity.NoseSearchResult
 import ru.mishgan325.cownose.data.network.BASE_URL
-import ru.mishgan325.cownose.ui.screen.app.result.ResultsViewModel
 import ru.mishgan325.cownose.ui.screen.common.image.CroppedImage
 import ru.mishgan325.cownose.ui.screen.common.image.ImagePreview
 import ru.mishgan325.cownose.ui.screen.common.state.UiState
@@ -65,7 +62,7 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
         when (uiState) {
             is UiState.InProgress ->
                 Box(
-                    Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) { CircularProgressIndicator() }
 
@@ -73,12 +70,10 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                 val state = uiState
 
                 // Формируем список (url, cow) для Glide
-                val similarCows = state.nose.similarCows
-                    .take(3)
-                    .map { cow ->
-                        val url = BASE_URL + cow.imageUrl.removePrefix("/")
-                        url to cow
-                    }
+                val similarCows = state.nose.similarCows.take(n = 3).map { cow ->
+                    val url = BASE_URL + cow.imageUrl.removePrefix(prefix = "/")
+                    url to cow
+                }
 
                 // Контент экрана
                 Column(

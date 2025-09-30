@@ -3,13 +3,11 @@ package ru.mishgan325.cownose.ui.screen.separate.historydetails
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,9 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImagePainter
-import coil3.compose.rememberAsyncImagePainter
+import com.skydoves.landscapist.glide.GlideImage
 import ru.mishgan325.cownose.R
 import ru.mishgan325.cownose.data.network.BASE_URL
 import ru.mishgan325.cownose.ui.screen.app.history.HistoryViewModel
@@ -60,16 +56,9 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (noseSearchResult?.imageFilepath != null) {
-            val similarCowsWithPainters = noseSearchResult.similarCows.take(3).map {
-                val url = BASE_URL + it.imageUrl.substring(1)
-                object {
-                    val painter = rememberAsyncImagePainter(model = url)
-                    val cow = it
-                }
-            }
-
-            similarCowsWithPainters.all {
-                it.painter.state.collectAsStateWithLifecycle().value is AsyncImagePainter.State.Success
+            val similarCows = noseSearchResult.similarCows.take(n = 3).map { cow ->
+                val url = BASE_URL + cow.imageUrl.removePrefix(prefix = "/")
+                url to cow
             }
 
             val imageUri = Uri.fromFile(File(noseSearchResult.imageFilepath))
@@ -78,10 +67,7 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
             Text(
                 text = if (isSuccess) stringResource(id = R.string.success)
                 else stringResource(id = R.string.failure),
-                color = if (isSuccess)
-                    Color(0xff28b128)
-                else
-                    MaterialTheme.colorScheme.error,
+                color = if (isSuccess) Color(0xff28b128) else MaterialTheme.colorScheme.error,
                 fontSize = 20.sp,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
@@ -128,20 +114,23 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                         .padding(horizontal = 2.dp)
                 )
 
+                // Без IntrinsicSize.Max — задаём размер картинок явно
                 Row(
-                    modifier = Modifier.height(IntrinsicSize.Max),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    similarCowsWithPainters.forEach { cow ->
+                    similarCows.forEach { (url, cow) ->
                         ResultsPanel(Modifier.weight(1f)) {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
-                                Image(
-                                    painter = cow.painter,
-                                    contentDescription = null,
-                                    modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                                GlideImage(
+                                    imageModel = { url },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(1f)
+                                        .clip(RoundedCornerShape(10.dp))
                                 )
                                 Row(
                                     modifier = Modifier
@@ -154,7 +143,7 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                     Text(
-                                        text = "${(cow.cow.similarity * 100).roundToInt()}%",
+                                        text = "${(cow.similarity * 100).roundToInt()}%",
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                 }
