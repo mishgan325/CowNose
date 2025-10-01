@@ -14,7 +14,7 @@
   <img src="screenshots/screen7.jpg" width="200" alt="Экран 7">
   <img src="screenshots/screen8.png" width="200" alt="Экран 8">
   <img src="screenshots/screen9.png" width="200" alt="Экран 9">
-  <img src="screenshots/screen10.jpg" width="200" alt="Экран 10">
+  <img src="screenshots/screen11.jpg" width="200" alt="Экран 10">
 </div>
 
 ## Демонстрация
