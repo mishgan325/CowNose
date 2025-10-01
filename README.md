@@ -30,8 +30,13 @@ https://drive.google.com/file/d/1Rom4Knj63755_It1BX3_BQguH7GKtN1H/view?usp=shari
   - Ktor
   - kotlinx.serialization
   - Jetpack Compose
-  - Koin
+  - Hilt
+  - Glide
   - Room
+
+### Проект ML
+
+https://github.com/awegis/cow_faces
 
 ### Бэкенд
 - Язык: Python
@@ -40,3 +45,4 @@ https://drive.google.com/file/d/1Rom4Knj63755_It1BX3_BQguH7GKtN1H/view?usp=shari
 
 ## Выполнил
 Студент группы ИКБО-02-22, Шибут М.В.
+
