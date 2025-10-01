@@ -57,4 +57,10 @@
     <string name="already_have_account">Уже есть аккаунт? Войти</string>
     <string name="download_gallery">Загрузить из галереи</string>
     <string name="strangers_cow">Чужая корова</string>
+    <string name="nfc_scan_title">NFC сканирование</string>
+    <string name="nfc_status">Статус</string>
+    <string name="nfc_processing">Обработка...</string>
+    <string name="cow_name">Имя коровы: %1$s</string>
+    <string name="last_milking_date">Дата последней дойки: %1$s</string>
+    <string name="cow_pen">Загон: %1$d</string>
 </resources>

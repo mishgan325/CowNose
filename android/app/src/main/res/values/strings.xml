@@ -56,4 +56,10 @@
     <string name="already_have_account">Already have an account? Sign in</string>
     <string name="download_gallery">Download from gallery</string>
     <string name="strangers_cow">Stranger\'s cow</string>
+    <string name="nfc_scan_title">NFC Scan</string>
+    <string name="nfc_status">Status</string>
+    <string name="nfc_processing">Processing...</string>
+    <string name="cow_name">Cow Name: %1$s</string>
+    <string name="last_milking_date">Last Milking Date: %1$s</string>
+    <string name="cow_pen">Pen: %1$d</string>
 </resources>
