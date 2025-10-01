@@ -79,6 +79,19 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(space = 10.dp)
                 ) {
+
+                    Text(
+                        text = when {
+                            !state.nose.cowName.isNullOrBlank() -> state.nose.cowName
+                            state.nose.status.equals("success", ignoreCase = true) ->
+                                stringResource(id = R.string.strangers_cow)
+                            else -> stringResource(id = R.string.failure)
+                        },
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+
                     ResultsPanel(Modifier.fillMaxWidth()) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -204,7 +217,9 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                                     databaseSize = -1,
                                     embeddingSize = -1,
                                     searchAlgorithm = "",
-                                    imageFilepath = null
+                                    imageFilepath = null,
+                                    message = context.getString(R.string.nose_not_found),
+                                    cowName = context.getString(R.string.nose_not_found)
                                 ),
                                 imageUri = uiState.imageUri
                             )

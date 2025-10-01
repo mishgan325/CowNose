@@ -55,4 +55,5 @@
     <string name="confirm_password">Confirm password</string>
     <string name="already_have_account">Already have an account? Sign in</string>
     <string name="download_gallery">Download from gallery</string>
+    <string name="strangers_cow">Stranger\'s cow</string>
 </resources>

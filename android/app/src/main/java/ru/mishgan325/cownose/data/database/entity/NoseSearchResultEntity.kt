@@ -8,6 +8,8 @@ data class NoseSearchResultEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val status: String,
+    val message: String,
+    val cowName: String,
     val date: Long,
     val imagePath: String,
     val left: Int,

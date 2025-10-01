@@ -10,6 +10,8 @@ data class NoseSearchResult(
     val id: Int,
     val date: LocalDateTime,
     val status: String,
+    val message: String,
+    val cowName: String,
     val noseCoordinates: NoseCoordinates,
     val similarCows: List<SimilarCow>,
     val databaseSize: Int,
@@ -22,6 +24,8 @@ data class NoseSearchResult(
 fun NoseSearchResultWithSimilarCows.toDomain(): NoseSearchResult = NoseSearchResult(
     id = result.id,
     status = result.status,
+    message = result.message,
+    cowName = result.cowName,
     noseCoordinates = NoseCoordinates(
         left = result.left,
         top = result.top,
@@ -41,7 +45,7 @@ fun NoseSearchResultWithSimilarCows.toDomain(): NoseSearchResult = NoseSearchRes
     embeddingSize = result.embeddingSize,
     searchAlgorithm = result.searchAlgorithm,
     imageFilepath = result.imagePath,
-    date = LocalDateTime.ofEpochSecond(result.date, 0, ZoneOffset.UTC)
+    date = LocalDateTime.ofEpochSecond(result.date, 0, ZoneOffset.UTC),
 )
 
 @RequiresApi(value = Build.VERSION_CODES.O)
@@ -49,6 +53,8 @@ fun NoseSearchResultDTO.toDomain(id: Int, imageFilepath: String?): NoseSearchRes
     NoseSearchResult(
         id = id,
         status = status,
+        message = message,
+        cowName = cowName ?: "",
         noseCoordinates = noseCoordinates.toDomain(),
         similarCows = similarCows.map { it.toDomain() },
         databaseSize = databaseSize,

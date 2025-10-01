@@ -15,11 +15,15 @@ import java.io.File
 import java.time.ZoneOffset
 import javax.inject.Inject
 
-class LocalNoseRepository @Inject constructor(private val noseSearchResultDao: NoseSearchResultDao) {
-    @RequiresApi(value = Build.VERSION_CODES.O)
+class LocalNoseRepository @Inject constructor(
+    private val noseSearchResultDao: NoseSearchResultDao
+) {
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun insertNoseSearchResult(result: NoseSearchResult) {
         val entity = NoseSearchResultEntity(
             status = result.status,
+            message = result.message,
+            cowName = result.cowName,
             imagePath = result.imageFilepath ?: "",
             left = result.noseCoordinates.left,
             top = result.noseCoordinates.top,
@@ -32,7 +36,10 @@ class LocalNoseRepository @Inject constructor(private val noseSearchResultDao: N
             searchAlgorithm = result.searchAlgorithm,
             date = result.date.toEpochSecond(ZoneOffset.UTC)
         )
-        val searchResultId = noseSearchResultDao.insertNoseSearchResult(result = entity).toInt()
+
+        val searchResultId =
+            noseSearchResultDao.insertNoseSearchResult(result = entity).toInt()
+
         val cowEntities = result.similarCows.map {
             SimilarCowEntity(
                 id = 0,
@@ -45,23 +52,26 @@ class LocalNoseRepository @Inject constructor(private val noseSearchResultDao: N
         noseSearchResultDao.insertSimilarCows(cows = cowEntities)
     }
 
-    @RequiresApi(value = Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getNoseSearchResult(id: Int): Flow<NoseSearchResult?> =
-        noseSearchResultDao.getResultWithSimilarCows(id).map { entity -> entity?.toDomain() }
+        noseSearchResultDao.getResultWithSimilarCows(id).map { entity ->
+            entity?.toDomain()
+        }
 
-    @RequiresApi(value = Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getAllNoseSearchResults(): Flow<List<NoseSearchResult>> =
         noseSearchResultDao.getAllResultsWithSimilarCows()
             .map { list -> list.map { it.toDomain() } }
 
     suspend fun deleteNoseSearchResult(id: Int, imageFilepath: String?) {
-        withContext(context = Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             noseSearchResultDao.deleteNoseSearchResultById(id)
             noseSearchResultDao.deleteSimilarCowsBySearchResultId(searchResultId = id)
             imageFilepath?.let { path ->
                 val file = File(path)
-                if (file.exists())
+                if (file.exists()) {
                     file.delete()
+                }
             }
         }
     }

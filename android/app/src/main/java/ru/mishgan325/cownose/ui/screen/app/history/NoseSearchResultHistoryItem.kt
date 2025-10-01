@@ -72,15 +72,30 @@ fun NoseSearchResultHistoryItem(
 
             Column(
                 modifier = Modifier
-                    .weight(weight = 1f),
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    .weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val isSuccess = result.status.equals("success", ignoreCase = true)
+                val statusText = when {
+                    result.status.equals("success", ignoreCase = true) && !result.cowName.isNullOrBlank() ->
+                        result.cowName!!
+                    result.status.equals("success", ignoreCase = true) ->
+                        stringResource(id = R.string.strangers_cow)
+                    else ->
+                        stringResource(id = R.string.failure)
+                }
+
+                val statusColor = when {
+                    result.status.equals("success", ignoreCase = true) && !result.cowName.isNullOrBlank() ->
+                        Color(0xFF28B128)
+                    result.status.equals("success", ignoreCase = true) ->
+                        MaterialTheme.colorScheme.primary
+                    else ->
+                        MaterialTheme.colorScheme.error
+                }
 
                 Text(
-                    text = if (isSuccess) stringResource(id = R.string.success)
-                    else stringResource(id = R.string.failure),
-                    color = if (isSuccess) Color(color = 0xFF28B128) else MaterialTheme.colorScheme.error,
+                    text = statusText,
+                    color = statusColor,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(start = 8.dp)
                 )
@@ -95,7 +110,9 @@ fun NoseSearchResultHistoryItem(
                 TextButton(
                     onClick = { onClick() },
                     contentPadding = PaddingValues(horizontal = 8.dp)
-                ) { Text(text = stringResource(id = R.string.details)) }
+                ) {
+                    Text(text = stringResource(id = R.string.details))
+                }
             }
 
             IconButton(onClick = { showDialog.value = true }) {
@@ -108,11 +125,16 @@ fun NoseSearchResultHistoryItem(
                 onDismissRequest = { showDialog.value = false },
                 title = { Text(text = stringResource(id = R.string.delete_record)) },
                 text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(space = 6.dp)) {
-                        val isSuccess = result.status.equals("success", ignoreCase = true)
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(
-                            text = if (isSuccess) stringResource(id = R.string.success)
-                            else stringResource(id = R.string.failure)
+                            text = when {
+                                result.status.equals("success", ignoreCase = true) && !result.cowName.isNullOrBlank() ->
+                                    result.cowName!!
+                                result.status.equals("success", ignoreCase = true) ->
+                                    stringResource(id = R.string.strangers_cow)
+                                else ->
+                                    stringResource(id = R.string.failure)
+                            }
                         )
                         Text(text = result.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
                     }

@@ -56,4 +56,5 @@
     <string name="edit_profile">Редактировать профиль</string>
     <string name="already_have_account">Уже есть аккаунт? Войти</string>
     <string name="download_gallery">Загрузить из галереи</string>
+    <string name="strangers_cow">Чужая корова</string>
 </resources>
