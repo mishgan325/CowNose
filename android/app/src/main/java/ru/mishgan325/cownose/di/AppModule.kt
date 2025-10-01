@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.mishgan325.cownose.data.database.AppDatabase
 import ru.mishgan325.cownose.data.database.dao.NoseSearchResultDao
+import ru.mishgan325.cownose.data.network.FirebaseIdTokenProvider
 import ru.mishgan325.cownose.data.network.WebClient
 import ru.mishgan325.cownose.data.network.repository.AuthRepository
 import ru.mishgan325.cownose.data.network.repository.CowNoseRepository
@@ -26,7 +27,13 @@ object MyModule {
 
     @Provides
     @Singleton
-    fun provideWebClient(): WebClient = WebClient()
+    fun provideFirebaseIdTokenProvider(auth: FirebaseAuth): FirebaseIdTokenProvider =
+        FirebaseIdTokenProvider(auth = auth)
+
+    @Provides
+    @Singleton
+    fun provideWebClient(firebaseIdTokenProvider: FirebaseIdTokenProvider): WebClient =
+        WebClient(tokenProvider = firebaseIdTokenProvider)
 
     @Provides
     @Singleton
