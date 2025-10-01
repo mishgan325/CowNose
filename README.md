@@ -5,16 +5,16 @@
 ## Скриншоты
 
 <div align="center">
-  <img src="screenshots/screen1.png" width="200" alt="Экран 1">
+  <img src="screenshots/screen1.jpg" width="200" alt="Экран 1">
   <img src="screenshots/screen2.png" width="200" alt="Экран 2">
   <img src="screenshots/screen3.png" width="200" alt="Экран 3">
   <img src="screenshots/screen4.png" width="200" alt="Экран 4">
-  <img src="screenshots/screen5.png" width="200" alt="Экран 5">
-  <img src="screenshots/screen6.png" width="200" alt="Экран 6">
-  <img src="screenshots/screen7.png" width="200" alt="Экран 7">
+  <img src="screenshots/screen5.jpg" width="200" alt="Экран 5">
+  <img src="screenshots/screen6.jpg" width="200" alt="Экран 6">
+  <img src="screenshots/screen7.jpg" width="200" alt="Экран 7">
   <img src="screenshots/screen8.png" width="200" alt="Экран 8">
   <img src="screenshots/screen9.png" width="200" alt="Экран 9">
-  <img src="screenshots/screen10.png" width="200" alt="Экран 10">
+  <img src="screenshots/screen10.jpg" width="200" alt="Экран 10">
 </div>
 
 ## Демонстрация
