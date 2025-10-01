@@ -82,7 +82,7 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
 
                     Text(
                         text = when {
-                            !state.nose.cowName.isNullOrBlank() -> state.nose.cowName
+                            state.nose.cowName.isNotBlank() -> state.nose.cowName
                             state.nose.status.equals("success", ignoreCase = true) ->
                                 stringResource(id = R.string.strangers_cow)
                             else -> stringResource(id = R.string.failure)

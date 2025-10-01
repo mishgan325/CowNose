@@ -84,6 +84,9 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
     // Ktor logging
     implementation(libs.slf4j.api)
     implementation(libs.slf4j.android)
@@ -99,4 +102,4 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     // Swipe
     implementation(libs.swipe)
-}
+    }

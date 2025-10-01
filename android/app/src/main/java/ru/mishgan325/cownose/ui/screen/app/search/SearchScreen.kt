@@ -1,6 +1,7 @@
 package ru.mishgan325.cownose.ui.screen.app.search
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ru.mishgan325.cownose.R
@@ -26,6 +28,7 @@ import ru.mishgan325.cownose.ui.screen.common.state.UiState
 
 @Composable
 fun SearchScreen(searchViewModel: SearchViewModel, onNavigateToResults: (Uri) -> Unit) {
+    val context = LocalContext.current
     val uiState = searchViewModel.uiState.collectAsState().value
 
     when (uiState) {
@@ -82,10 +85,15 @@ fun SearchScreen(searchViewModel: SearchViewModel, onNavigateToResults: (Uri) ->
 
                     OutlinedButton(
                         onClick = {
-                            imageUri?.let {
-                                searchViewModel.setImageForRecognition(it)
-                                onNavigateToResults(it)
-                            }
+                            if (imageUri != null) {
+                                searchViewModel.setImageForRecognition(imageUri)
+                                onNavigateToResults(imageUri)
+                            } else
+                                Toast.makeText(
+                                    context,
+                                    R.string.select_image_first,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                         },
                         shape = MaterialTheme.shapes.extraLarge,
                         modifier = Modifier.fillMaxWidth()
