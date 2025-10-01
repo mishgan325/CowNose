@@ -29,13 +29,13 @@ fun SplashScreen(
 ) {
     val isLoggedIn = splashViewModel.isLoggedIn.collectAsState().value
 
-    val startAnimation = remember { mutableStateOf(false) }
+    val startAnimation = remember { mutableStateOf(value = false) }
     val alphaAnim = animateFloatAsState(
         targetValue = if (startAnimation.value) 1f else 0f,
         animationSpec = tween(durationMillis = 3000)
     )
 
-    LaunchedEffect(isLoggedIn) {
+    LaunchedEffect(key1 = isLoggedIn) {
         startAnimation.value = true
         delay(timeMillis = 4000)
 

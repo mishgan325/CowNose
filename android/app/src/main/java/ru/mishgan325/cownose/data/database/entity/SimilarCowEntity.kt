@@ -23,7 +23,6 @@ data class SimilarCowEntity(
     val searchResultId: Int
 )
 
-
 fun SimilarCowEntity.toDomain(): SimilarCow =
     SimilarCow(
         name = name,

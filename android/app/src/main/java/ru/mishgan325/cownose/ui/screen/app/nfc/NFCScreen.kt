@@ -29,7 +29,7 @@ fun NFCScreen() {
     val context = LocalContext.current
     val activity = context as? Activity
 
-    val nfcMessage = remember { mutableStateOf(context.getString(R.string.nfc_hold_tag)) }
+    val nfcMessage = remember { mutableStateOf(value = context.getString(R.string.nfc_hold_tag)) }
     val nfcAdapter = remember { NfcAdapter.getDefaultAdapter(context) }
 
     DisposableEffect(key1 = Unit) {

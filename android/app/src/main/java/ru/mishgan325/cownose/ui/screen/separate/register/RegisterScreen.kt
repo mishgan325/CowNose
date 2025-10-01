@@ -78,8 +78,8 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
         OutlinedTextField(
             value = uiState.email,
             onValueChange = registerViewModel::onEmailChange,
-            label = { Text("Email") },
-            placeholder = { Text("example@domain.com") },
+            label = { Text(text = "Email") },
+            placeholder = { Text(text = "example@domain.com") },
             singleLine = true,
             leadingIcon = {
                 Image(
@@ -142,7 +142,6 @@ fun RegisterScreen(registerViewModel: RegisterViewModel, onNavigateToLoginScreen
                 .bringIntoViewRequester(bringIntoViewRequester)
         )
 
-        // TODO Сделать иконку фермы
         ExposedDropdownMenuBox(
             expanded = uiState.farmsExpanded,
             onExpandedChange = { registerViewModel.onFarmsExpanded(expanded = !uiState.farmsExpanded) },

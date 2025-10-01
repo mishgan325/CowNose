@@ -57,7 +57,10 @@ fun SearchScreen(searchViewModel: SearchViewModel, onNavigateToResults: (Uri) ->
                         )
                     else
                         ImagePreviewPlaceholder(
-                            modifier = Modifier.weight(weight = 1f, fill = true)
+                            modifier = Modifier.weight(
+                                weight = 1f,
+                                fill = true
+                            )
                         )
                 }
 

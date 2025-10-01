@@ -16,8 +16,7 @@ fun AppBottom(destination: NavDestination?, navController: NavHostController) {
     NavigationBar {
         AppScreenRoutes().forEach { navItem ->
             NavigationBarItem(
-                selected = destination?.hierarchy
-                    ?.any { it.hasRoute(route = navItem.route::class) } == true,
+                selected = destination?.hierarchy?.any { it.hasRoute(route = navItem.route::class) } == true,
                 onClick = {
                     navController.navigate(route = navItem.route) {
                         popUpTo(id = navController.graph.findStartDestination().id) {

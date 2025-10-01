@@ -33,7 +33,7 @@ fun ExpandableDetailsPanel(
     searchAlgorithm: String,
     modifier: Modifier = Modifier
 ) {
-    val expanded = remember { mutableStateOf(false) }
+    val expanded = remember { mutableStateOf(value = false) }
 
     Column(
         modifier = modifier

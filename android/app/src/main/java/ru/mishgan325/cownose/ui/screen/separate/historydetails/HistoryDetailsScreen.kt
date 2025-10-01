@@ -40,19 +40,19 @@ import java.io.File
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(value = Build.VERSION_CODES.O)
 @Composable
 fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewModel) {
     val noseSearchResults = historyViewModel.noseSearchResults.collectAsState().value
     val noseSearchResult = noseSearchResults.find { it.id == noseSearchResultId }
 
-    val showDialog = remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(value = false) }
 
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .verticalScroll(state = rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(space = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (noseSearchResult?.imageFilepath != null) {
@@ -82,8 +82,8 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
             if (isSuccess) {
                 ResultsPanel(modifier = Modifier.fillMaxWidth()) {
                     Column(
-                        modifier = Modifier.padding(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(all = 12.dp),
+                        verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val coordinates = noseSearchResult.noseCoordinates
@@ -91,11 +91,11 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                         CroppedImage(
                             imageUri = imageUri,
                             noseCoordinates = coordinates,
-                            modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                            modifier = Modifier.clip(shape = RoundedCornerShape(size = 10.dp))
                         )
 
                         Text(
-                            text = stringResource(R.string.nose_coordinates),
+                            text = stringResource(id = R.string.nose_coordinates),
                             style = MaterialTheme.typography.titleMedium
                         )
 
@@ -107,30 +107,29 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                 }
 
                 Text(
-                    text = stringResource(R.string.similar_noses),
+                    text = stringResource(id = R.string.similar_noses),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 2.dp)
                 )
 
-                // Без IntrinsicSize.Max — задаём размер картинок явно
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
                 ) {
                     similarCows.forEach { (url, cow) ->
-                        ResultsPanel(Modifier.weight(1f)) {
+                        ResultsPanel(Modifier.weight(weight = 1f)) {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(6.dp)
+                                verticalArrangement = Arrangement.spacedBy(space = 6.dp)
                             ) {
                                 GlideImage(
                                     imageModel = { url },
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .aspectRatio(1f)
-                                        .clip(RoundedCornerShape(10.dp))
+                                        .aspectRatio(ratio = 1f)
+                                        .clip(RoundedCornerShape(size = 10.dp))
                                 )
                                 Row(
                                     modifier = Modifier
@@ -139,7 +138,7 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Text(
-                                        text = stringResource(R.string.similarity),
+                                        text = stringResource(id = R.string.similarity),
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                     Text(
@@ -178,7 +177,7 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
 
             Button(
                 onClick = { showDialog.value = true },
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(size = 8.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
@@ -192,7 +191,7 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
             if (showDialog.value)
                 AlertDialog(
                     onDismissRequest = { showDialog.value = false },
-                    title = { Text(text = stringResource(R.string.delete_record)) },
+                    title = { Text(text = stringResource(id = R.string.delete_record)) },
                     confirmButton = {
                         TextButton(
                             onClick = {
@@ -202,11 +201,11 @@ fun HistoryDetailsScreen(noseSearchResultId: Int, historyViewModel: HistoryViewM
                                     imageFilepath = noseSearchResult.imageFilepath
                                 )
                             }
-                        ) { Text(text = stringResource(R.string.confirm)) }
+                        ) { Text(text = stringResource(id = R.string.confirm)) }
                     },
                     dismissButton = {
                         TextButton(onClick = { showDialog.value = false }) {
-                            Text(text = stringResource(R.string.cancel))
+                            Text(text = stringResource(id = R.string.cancel))
                         }
                     }
                 )

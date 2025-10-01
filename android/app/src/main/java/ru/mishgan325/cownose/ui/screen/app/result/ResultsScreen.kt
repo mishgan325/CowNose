@@ -69,29 +69,25 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
             is UiState.NoseFound -> {
                 val state = uiState
 
-                // Формируем список (url, cow) для Glide
-                val similarCows = state.nose.similarCows
-                    .take(3)
-                    .map { cow ->
-                        val url = BASE_URL + cow.imageUrl.removePrefix("/")
-                        url to cow
-                    }
+                val similarCows = state.nose.similarCows.take(n = 3).map { cow ->
+                    val url = BASE_URL + cow.imageUrl.removePrefix(prefix = "/")
+                    url to cow
+                }
 
-                // Контент экрана
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 10.dp)
                 ) {
                     ResultsPanel(Modifier.fillMaxWidth()) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
                         ) {
                             CroppedImage(
                                 imageUri = state.imageUri,
                                 noseCoordinates = state.nose.noseCoordinates,
-                                modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                                modifier = Modifier.clip(shape = RoundedCornerShape(size = 10.dp))
                             )
                             Text(
                                 text = stringResource(id = R.string.nose_coordinates),
@@ -111,20 +107,20 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
                     ) {
                         similarCows.forEach { (url, cow) ->
-                            ResultsPanel(Modifier.weight(1f)) {
+                            ResultsPanel(Modifier.weight(weight = 1f)) {
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                                    verticalArrangement = Arrangement.spacedBy(space = 6.dp)
                                 ) {
                                     GlideImage(
                                         imageModel = { url },
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .aspectRatio(1f)
-                                            .clip(RoundedCornerShape(10.dp))
+                                            .aspectRatio(ratio = 1f)
+                                            .clip(shape = RoundedCornerShape(size = 10.dp))
                                     )
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -152,7 +148,6 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                         )
                     }
 
-                    val scope = rememberCoroutineScope()
                     SaveAndRetryPanel(
                         onSaveClick = {
                             resultsViewModel.insertNose(
@@ -172,10 +167,8 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                         .fillMaxSize()
                         .padding(horizontal = 10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 16.dp)
                 ) {
-                    val state = uiState
-
                     Text(
                         text = stringResource(id = R.string.nose_not_found),
                         style = MaterialTheme.typography.titleMedium,
@@ -184,7 +177,7 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                     )
 
                     ImagePreview(
-                        imageUri = state.imageUri,
+                        imageUri = uiState.imageUri,
                         modifier = Modifier
                             .wrapContentHeight()
                             .fillMaxHeight(0.7f)
@@ -213,10 +206,10 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                                     searchAlgorithm = "",
                                     imageFilepath = null
                                 ),
-                                imageUri = state.imageUri
+                                imageUri = uiState.imageUri
                             )
                             scope.launch {
-                                delay(100)
+                                delay(timeMillis = 100)
                                 snackBarHostState.showSnackbar(
                                     message = context.getString(R.string.saved),
                                     withDismissAction = true
@@ -224,7 +217,7 @@ fun ResultsScreen(resultsViewModel: ResultsViewModel, onNavigateToSearch: () -> 
                             }
                         },
                         onTryAgainClick = { onNavigateToSearch() },
-                        showSavedMessage = state.showSavedMessage
+                        showSavedMessage = uiState.showSavedMessage
                     )
                 }
 

@@ -47,7 +47,7 @@ fun getFilePath(context: Context, uri: Uri): String? {
 
 fun saveBitmapToFile(context: Context, imageUri: Uri, directoryName: String = "images"): String {
     val path = getFilePath(context, imageUri)!!
-    val exif: ExifInterface = ExifInterface(path)
+    val exif = ExifInterface(path)
     val orientation =
         exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
     val width =
@@ -68,7 +68,7 @@ fun saveBitmapToFile(context: Context, imageUri: Uri, directoryName: String = "i
                 val bitmap = BitmapFactory.decodeStream(inputStream)
 
                 val correctedBitmap = if (somethingWrong) {
-                    val matrix: Matrix = Matrix()
+                    val matrix = Matrix()
                     matrix.postRotate(90f)
                     val scaledBitmap = bitmap.scale(width, height)
                     val rotatedBitmap: Bitmap = Bitmap.createBitmap(

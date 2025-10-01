@@ -44,7 +44,7 @@ fun ExpandableImagePreview(imageUri: Uri, expandedInitially: Boolean) {
         ) {
             Text(
                 text = stringResource(id = R.string.uploaded_image),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(weight = 1f)
             )
             Icon(
                 imageVector = if (expanded.value) Icons.Default.KeyboardArrowUp

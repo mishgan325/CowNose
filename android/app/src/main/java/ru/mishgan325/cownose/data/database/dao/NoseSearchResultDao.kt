@@ -19,16 +19,16 @@ interface NoseSearchResultDao {
     suspend fun insertSimilarCows(cows: List<SimilarCowEntity>)
 
     @Transaction
-    @Query("SELECT * FROM nose_search_results WHERE id = :id")
+    @Query(value = "SELECT * FROM nose_search_results WHERE id = :id")
     fun getResultWithSimilarCows(id: Int): Flow<NoseSearchResultWithSimilarCows?>
 
     @Transaction
-    @Query("SELECT * FROM nose_search_results")
+    @Query(value = "SELECT * FROM nose_search_results")
     fun getAllResultsWithSimilarCows(): Flow<List<NoseSearchResultWithSimilarCows>>
 
-    @Query("DELETE FROM nose_search_results WHERE id = :id")
+    @Query(value = "DELETE FROM nose_search_results WHERE id = :id")
     suspend fun deleteNoseSearchResultById(id: Int)
 
-    @Query("DELETE FROM similar_cows WHERE searchResultId = :searchResultId")
+    @Query(value = "DELETE FROM similar_cows WHERE searchResultId = :searchResultId")
     suspend fun deleteSimilarCowsBySearchResultId(searchResultId: Int)
 }

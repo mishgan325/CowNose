@@ -39,15 +39,15 @@ import ru.mishgan325.cownose.R
 
 @Composable
 fun ProfileScreen(profileViewModel: ProfileViewModel) {
-    val isLoading = rememberSaveable { mutableStateOf(true) }
-    val photoUpdating = rememberSaveable { mutableStateOf(false) }
+    val isLoading = rememberSaveable { mutableStateOf(value = true) }
+    val photoUpdating = rememberSaveable { mutableStateOf(value = false) }
 
     val uiState = profileViewModel.uiState.collectAsState().value
-    val fullName = remember(MutableStateFlow(value = uiState)) { "John Smith" }
-    val email = remember(MutableStateFlow(value = uiState)) { "example@domain.com" }
+    val fullName = remember(key1 = MutableStateFlow(value = uiState)) { "John Smith" }
+    val email = remember(key1 = MutableStateFlow(value = uiState)) { "example@domain.com" }
 
-    LaunchedEffect(Unit) {
-        delay(1000L)
+    LaunchedEffect(key1 = Unit) {
+        delay(timeMillis = 1000L)
         isLoading.value = false
     }
 
@@ -105,7 +105,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
             } else {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp) // интервал между карточкой и кнопкой
+                    verticalArrangement = Arrangement.spacedBy(space = 16.dp)
                 ) {
                     ElevatedCard(
                         modifier = Modifier.fillMaxWidth(),
@@ -115,7 +115,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(all = 16.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp) // внутри карточки
+                            verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.about_user),
@@ -131,7 +131,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
                     Button(
                         onClick = { /* TODO: profileViewModel.onEdit() */ },
                         modifier = Modifier.fillMaxWidth(),
-                        enabled = photoUpdating.value, // оставил как было
+                        enabled = photoUpdating.value,
                         shape = MaterialTheme.shapes.extraLarge
                     ) {
                         Text(text = stringResource(id = R.string.edit_profile))
@@ -144,7 +144,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background.copy(alpha = 0.6f)),
+                    .background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.6f)),
                 contentAlignment = Alignment.Center
             ) { CircularProgressIndicator() }
         }

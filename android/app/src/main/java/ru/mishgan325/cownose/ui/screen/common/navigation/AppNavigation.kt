@@ -126,10 +126,8 @@ fun AppNavigation() {
                 }
                 composable<ProfileScreenRoute> { ProfileScreen(profileViewModel = hiltViewModel()) }
                 composable<HistoryDetailsScreenRoute> {
-                    val route: HistoryDetailsScreenRoute = it.toRoute()
-
                     HistoryDetailsScreen(
-                        noseSearchResultId = route.id,
+                        noseSearchResultId = it.toRoute<HistoryDetailsScreenRoute>().id,
                         historyViewModel = hiltViewModel()
                     )
                 }

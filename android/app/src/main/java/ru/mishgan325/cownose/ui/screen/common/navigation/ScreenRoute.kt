@@ -37,22 +37,22 @@ fun AppIcon(icon: AppIcon, contentDescription: String?) {
 @Composable
 fun AppScreenRoutes(): List<AppScreenRoute<*>> = listOf(
     AppScreenRoute(
-        name = stringResource(R.string.nav_search),
+        name = stringResource(id = R.string.nav_search),
         route = SearchScreenRoute,
         icon = AppIcon.Res(resId = R.drawable.search)
     ),
     AppScreenRoute(
-        name = stringResource(R.string.nav_nfc),
+        name = stringResource(id = R.string.nav_nfc),
         route = NFCScreenRoute,
         icon = AppIcon.Res(resId = R.drawable.rfid_line)
     ),
     AppScreenRoute(
-        name = stringResource(R.string.nav_add_nose),
+        name = stringResource(id = R.string.nav_add_nose),
         route = AddEmbeddingScreenRoute,
         icon = AppIcon.Res(resId = R.drawable.add)
     ),
     AppScreenRoute(
-        name = stringResource(R.string.nav_history),
+        name = stringResource(id = R.string.nav_history),
         route = HistoryScreenRoute,
         icon = AppIcon.Res(resId = R.drawable.history)
     ),

@@ -1,4 +1,4 @@
-package ru.mishgan325.cownose.ui.screen.common.appbar
+package ru.mishgan325.cownose.ui.screen.common.navigation
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

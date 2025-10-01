@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import ru.mishgan325.cownose.R
+import ru.mishgan325.cownose.ui.screen.common.navigation.AppBarViewModel
 
 @OptIn(markerClass = [ExperimentalMaterial3Api::class])
 @Composable

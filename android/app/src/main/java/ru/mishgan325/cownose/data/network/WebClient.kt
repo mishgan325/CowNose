@@ -15,13 +15,13 @@ import javax.inject.Inject
 internal const val BASE_URL = "http://158.255.0.109:5353/"
 
 class WebClient @Inject constructor() {
-    val client: HttpClient = HttpClient(Android) {
+    val client: HttpClient = HttpClient(engineFactory = Android) {
         expectSuccess = true
-        install(Logging) {
+        install(plugin = Logging) {
             logger = Logger.ANDROID
             level = LogLevel.INFO
         }
-        install(ContentNegotiation) {
+        install(plugin = ContentNegotiation) {
             json(Json {
                 prettyPrint = true
                 isLenient = true

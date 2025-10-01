@@ -23,8 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,16 +37,15 @@ import ru.mishgan325.cownose.data.database.entity.NoseSearchResult
 import ru.mishgan325.cownose.ui.screen.app.result.ResultsPanel
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(value = Build.VERSION_CODES.O)
 @Composable
 fun NoseSearchResultHistoryItem(
     result: NoseSearchResult,
     onClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showDialog: MutableState<Boolean>
 ) {
-    val showDialog = remember { mutableStateOf(false) }
-
     ResultsPanel(modifier = modifier.height(IntrinsicSize.Min)) {
         Row(
             modifier = Modifier
@@ -110,7 +108,7 @@ fun NoseSearchResultHistoryItem(
                 onDismissRequest = { showDialog.value = false },
                 title = { Text(text = stringResource(id = R.string.delete_record)) },
                 text = {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(space = 6.dp)) {
                         val isSuccess = result.status.equals("success", ignoreCase = true)
                         Text(
                             text = if (isSuccess) stringResource(id = R.string.success)

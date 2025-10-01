@@ -10,9 +10,8 @@ class AuthRepository @Inject constructor(private val firebaseAuth: FirebaseAuth)
     private val _isLoggedId = MutableStateFlow(value = firebaseAuth.currentUser != null)
     val isLoggedIn = _isLoggedId.asStateFlow()
 
-    private val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-        _isLoggedId.value = auth.currentUser != null
-    }
+    private val authStateListener =
+        FirebaseAuth.AuthStateListener { auth -> _isLoggedId.value = auth.currentUser != null }
 
     init {
         firebaseAuth.addAuthStateListener(authStateListener)
@@ -21,17 +20,17 @@ class AuthRepository @Inject constructor(private val firebaseAuth: FirebaseAuth)
     suspend fun login(email: String, password: String): Result<Unit> =
         try {
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            Result.success(Unit)
+            Result.success(value = Unit)
         } catch (e: Exception) {
-            Result.failure(e)
+            Result.failure(exception = e)
         }
 
     suspend fun register(email: String, password: String): Result<Unit> =
         try {
             firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            Result.success(Unit)
+            Result.success(value = Unit)
         } catch (e: Exception) {
-            Result.failure(e)
+            Result.failure(exception = e)
         }
 
     fun logout() = firebaseAuth.signOut()

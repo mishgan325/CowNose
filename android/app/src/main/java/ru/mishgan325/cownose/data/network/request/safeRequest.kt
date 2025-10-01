@@ -48,11 +48,21 @@ suspend inline fun <reified T> HttpClient.safeRequest(block: HttpRequestBuilder.
 suspend inline fun <reified T> HttpClient.safeRequestRaw(block: () -> HttpResponse): RequestResult<T> =
     try {
         val response = block()
-        RequestResult.Success(response.body())
+        RequestResult.Success(data = response.body())
     } catch (e: ClientRequestException) {
-        RequestResult.Failure(RequestError.ApiError(e.message, e.response.status.value))
+        RequestResult.Failure(
+            error = RequestError.ApiError(
+                message = e.message,
+                code = e.response.status.value
+            )
+        )
     } catch (e: ServerResponseException) {
-        RequestResult.Failure(RequestError.ApiError(e.message, e.response.status.value))
+        RequestResult.Failure(
+            error = RequestError.ApiError(
+                message = e.message,
+                code = e.response.status.value
+            )
+        )
     } catch (_: IOException) {
         RequestResult.Failure(RequestError.NetworkError)
     } catch (_: SerializationException) {

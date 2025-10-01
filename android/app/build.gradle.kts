@@ -97,4 +97,6 @@ dependencies {
     implementation(libs.landscapist.glide)
     // Icons
     implementation(libs.androidx.compose.material.icons.extended)
+    // Swipe
+    implementation(libs.swipe)
 }

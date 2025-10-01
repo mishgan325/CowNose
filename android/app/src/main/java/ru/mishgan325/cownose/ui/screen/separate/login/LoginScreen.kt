@@ -111,7 +111,7 @@ fun LoginScreen(
             textStyle = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background),
+                .background(color = MaterialTheme.colorScheme.background),
             leadingIcon = {
                 Image(
                     painter = painterResource(id = R.drawable.password),
@@ -119,7 +119,7 @@ fun LoginScreen(
                     colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                 )
             },
-            label = { Text(text = stringResource(R.string.password)) },
+            label = { Text(text = stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
@@ -129,7 +129,6 @@ fun LoginScreen(
             )
         )
 
-        // TODO Сделать иконку фермы
         ExposedDropdownMenuBox(
             expanded = uiState.farmsExpanded,
             onExpandedChange = { loginViewModel.onFarmsExpanded(expanded = !uiState.farmsExpanded) },
@@ -150,7 +149,7 @@ fun LoginScreen(
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = uiState.farmsExpanded) },
                 modifier = Modifier
                     .menuAnchor()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(color = MaterialTheme.colorScheme.background)
                     .fillMaxWidth()
             )
 
